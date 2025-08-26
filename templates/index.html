@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's My GPU? - Free GPU Detector Tool</title>
+    <meta name="description" content="Instantly detect your GPU model, memory, and specifications. Free tool to check what graphics card you have.">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold">What's My GPU?</h1>
+                    <p class="text-blue-100 mt-1">Free GPU Detection Tool</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm text-blue-100">Detect your graphics card instantly</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">Find Out What GPU You Have</h2>
+            <p class="text-xl text-gray-600 mb-8">Instantly detect your graphics card model, memory, and specifications</p>
+            
+            <button id="detectBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition duration-300 transform hover:scale-105">
+                <i class="fas fa-search mr-2"></i>
+                Detect My GPU
+            </button>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="hidden text-center py-12">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p class="text-gray-600 text-lg">Detecting your GPU...</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="hidden">
+            <!-- GPU Information -->
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-microchip text-2xl text-blue-600 mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">GPU Information</h3>
+                    </div>
+                    <div id="gpuInfo" class="space-y-3">
+                        <!-- GPU info will be populated here -->
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-server text-2xl text-green-600 mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">System Information</h3>
+                    </div>
+                    <div id="systemInfo" class="space-y-3">
+                        <!-- System info will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- CPU and Memory -->
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-microchip text-2xl text-purple-600 mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">CPU Information</h3>
+                    </div>
+                    <div id="cpuInfo" class="space-y-3">
+                        <!-- CPU info will be populated here -->
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-memory text-2xl text-orange-600 mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Memory Information</h3>
+                    </div>
+                    <div id="memoryInfo" class="space-y-3">
+                        <!-- Memory info will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="hidden bg-red-50 border border-red-200 rounded-lg p-6">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle text-red-600 text-xl mr-3"></i>
+                    <h3 class="text-lg font-semibold text-red-800">Detection Failed</h3>
+                </div>
+                <p id="errorMessage" class="text-red-700 mt-2"></p>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="mt-16">
+            <h3 class="text-2xl font-bold text-gray-800 text-center mb-8">Why Use Our GPU Detector?</h3>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-bolt text-2xl text-blue-600"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-800 mb-2">Instant Detection</h4>
+                    <p class="text-gray-600">Get your GPU information in seconds, no downloads required</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-2xl text-green-600"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-800 mb-2">100% Safe</h4>
+                    <p class="text-gray-600">No software installation needed, runs entirely in your browser</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-globe text-2xl text-purple-600"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-800 mb-2">Cross-Platform</h4>
+                    <p class="text-gray-600">Works on Windows, macOS, and Linux systems</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 GPU Detector Tool. Free tool to check your graphics card specifications.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('detectBtn').addEventListener('click', detectGPU);
+
+        async function detectGPU() {
+            console.log('detectGPU function called');
+            
+            const detectBtn = document.getElementById('detectBtn');
+            const loadingState = document.getElementById('loadingState');
+            const resultsSection = document.getElementById('resultsSection');
+            const errorState = document.getElementById('errorState');
+
+            // Show loading state
+            detectBtn.disabled = true;
+            detectBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Detecting...';
+            loadingState.classList.remove('hidden');
+            resultsSection.classList.add('hidden');
+            errorState.classList.add('hidden');
+
+            try {
+                console.log('Making fetch request to /api/detect');
+                const response = await fetch('/api/detect');
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+                
+                const data = await response.json();
+                console.log('Raw response data:', data);
+
+                if (data.success) {
+                    console.log('Detection successful, calling displayResults');
+                    displayResults(data);
+                } else {
+                    console.log('Detection failed:', data.error);
+                    showError(data.error || 'Failed to detect GPU');
+                }
+            } catch (error) {
+                console.error('Error in detectGPU:', error);
+                showError('Network error: ' + error.message);
+            } finally {
+                // Reset button
+                detectBtn.disabled = false;
+                detectBtn.innerHTML = '<i class="fas fa-search mr-2"></i>Detect My GPU';
+                loadingState.classList.add('hidden');
+            }
+        }
+
+        function displayResults(data) {
+            console.log('displayResults called with:', data);
+            
+            try {
+                const resultsSection = document.getElementById('resultsSection');
+                const gpuInfo = document.getElementById('gpuInfo');
+                const systemInfo = document.getElementById('systemInfo');
+                const cpuInfo = document.getElementById('cpuInfo');
+                const memoryInfo = document.getElementById('memoryInfo');
+
+                // Safe property access with fallbacks
+                const gpu = data.gpu || {};
+                const system = data.system || {};
+                const cpu = data.cpu || {};
+                const memory = data.memory || {};
+
+                console.log('GPU data:', gpu);
+                console.log('System data:', system);
+                console.log('CPU data:', cpu);
+                console.log('Memory data:', memory);
+
+                // Display GPU information
+                if (gpu.detected && gpu.gpus && gpu.gpus.length > 0) {
+                    let gpuHtml = '';
+                    gpu.gpus.forEach((gpuItem, index) => {
+                        gpuHtml += `
+                            <div class="border-l-4 border-blue-500 pl-4 mb-4">
+                                <div class="font-semibold text-gray-800">GPU ${index + 1}</div>
+                                <div class="text-sm text-gray-600">${gpuItem.name || 'Unknown'}</div>
+                                <div class="text-sm text-gray-500">Memory: ${gpuItem.memory_gb || 'Unknown'} GB</div>
+                                <div class="text-sm text-gray-500">Driver: ${gpuItem.driver_version || 'Unknown'}</div>
+                                <div class="text-xs text-gray-400">Type: ${gpuItem.type || 'Unknown'}</div>
+                            </div>
+                        `;
+                    });
+                    gpuInfo.innerHTML = gpuHtml;
+                } else {
+                    gpuInfo.innerHTML = `
+                        <div class="text-red-600">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            No GPU detected
+                        </div>
+                        <div class="text-sm text-gray-500 mt-2">Backend used: ${gpu.backend || 'none'}</div>
+                        ${gpu.error ? `<div class="text-sm text-gray-500 mt-2">Error: ${gpu.error}</div>` : ''}
+                    `;
+                }
+
+                // Display system information
+                systemInfo.innerHTML = `
+                    <div class="space-y-2">
+                        <div><span class="font-medium">Platform:</span> ${system.platform || 'Unknown'}</div>
+                        <div><span class="font-medium">Architecture:</span> ${system.architecture || 'Unknown'}</div>
+                        <div><span class="font-medium">Python:</span> ${system.python_version || 'Unknown'}</div>
+                        <div><span class="font-medium">Processor:</span> ${system.processor || 'Unknown'}</div>
+                    </div>
+                `;
+
+                // Display CPU information
+                cpuInfo.innerHTML = `
+                    <div class="space-y-2">
+                        <div><span class="font-medium">Model:</span> ${cpu.name || 'Unknown'}</div>
+                        <div><span class="font-medium">Cores:</span> ${cpu.cores || 'Unknown'} (${cpu.physical_cores || 'Unknown'} physical)</div>
+                        <div><span class="font-medium">Frequency:</span> ${cpu.frequency || 'Unknown'} MHz</div>
+                    </div>
+                `;
+
+                // Display memory information
+                memoryInfo.innerHTML = `
+                    <div class="space-y-2">
+                        <div><span class="font-medium">Total:</span> ${memory.total_gb || 'Unknown'} GB</div>
+                        <div><span class="font-medium">Available:</span> ${memory.available_gb || 'Unknown'} GB</div>
+                        <div><span class="font-medium">Used:</span> ${memory.used_gb || 'Unknown'} GB (${memory.percent_used || 'Unknown'}%)</div>
+                    </div>
+                `;
+
+                console.log('About to show results section');
+                resultsSection.classList.remove('hidden');
+                console.log('Results section should now be visible');
+                
+            } catch (error) {
+                console.error('Error in displayResults:', error);
+                showError('Failed to display results: ' + error.message);
+            }
+        }
+
+        function showError(message) {
+            console.log('showError called with:', message);
+            
+            const resultsSection = document.getElementById('resultsSection');
+            const errorState = document.getElementById('errorState');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            errorMessage.textContent = message;
+            errorState.classList.remove('hidden');
+            resultsSection.classList.remove('hidden'); // Show the results section so error is visible
+        }
+    </script>
+</body>
+</html>
