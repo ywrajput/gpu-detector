@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPU Benchmark Tool - Professional GPU Health Monitoring & Optimization</title>
+    <meta name="description" content="Comprehensive multi-vendor GPU health monitoring and optimization tool. Test NVIDIA, AMD, Intel GPUs with advanced stress testing and health scoring.">
+    <meta name="keywords" content="GPU benchmark, GPU health monitoring, GPU stress test, NVIDIA, AMD, Intel, GPU optimization">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID" crossorigin="anonymous"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            color: white;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 
+                0 0 20px rgba(120, 119, 198, 0.5),
+                0 0 40px rgba(120, 119, 198, 0.3);
+            background: linear-gradient(45deg, #fff, #a8a8ff, #fff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+        
+        /* Features Section */
+        .features {
+            margin: 3rem 0;
+        }
+        
+        .features h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #333;
+            text-align: center;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Installation Section */
+        .installation {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .installation h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        
+        .code-block .highlight {
+            color: #4CAF50;
+        }
+        
+        /* Ad Sections */
+        .ad-section {
+            background: #f8f9fa;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .ad-section h3 {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #667eea;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            margin-bottom: 1rem;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1>🚀 GPU Benchmark Tool</h1>
+                <p>Professional GPU Health Monitoring & Optimization</p>
+                <a href="#installation" class="cta-button">
+                    <i class="fas fa-download"></i> Install Now
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Features Section -->
+                <section class="features">
+                    <h2>🔥 Professional GPU Health Monitoring</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🏥</div>
+                            <h3>Health Scoring</h3>
+                            <p>100-point health scoring system with actionable recommendations. Monitor temperature, power, utilization, and throttling detection.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <h3>Stress Testing</h3>
+                            <p>Advanced stress testing with compute, memory bandwidth, VRAM, and mixed-precision tests for comprehensive GPU evaluation.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🖥️</div>
+                            <h3>Multi-GPU Support</h3>
+                            <p>Test and compare multiple GPUs simultaneously. Perfect for workstations and mining rigs.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔌</div>
+                            <h3>Multi-Vendor Support</h3>
+                            <p>Full support for NVIDIA, AMD, Intel GPUs. Works with consumer, workstation, and data center GPUs.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">☁️</div>
+                            <h3>Cloud Ready</h3>
+                            <p>Designed to help select optimal GPUs for cloud deployment. Perfect for AI/ML workloads.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🧪</div>
+                            <h3>Mock Mode</h3>
+                            <p>Test on any computer without GPUs. Perfect for development and demonstration purposes.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Health Score Explanation -->
+                <section class="installation">
+                    <h2>📊 Understanding Health Scores</h2>
+                    <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">Our 100-point health scoring system helps you understand your GPU's condition and performance potential.</p>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <h3>🟢 85-100: Healthy</h3>
+                            <p>Safe for all workloads including AI training. GPU is in excellent condition.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>🟢 70-84: Good</h3>
+                            <p>Suitable for most workloads. Minor optimization may be beneficial.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>🟡 55-69: Degraded</h3>
+                            <p>Limit to inference or light compute. Monitor closely.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>🔴 0-39: Critical</h3>
+                            <p>Do not use for production. Consider replacement or repair.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stats Section -->
+                <section class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number">100</div>
+                        <div class="stat-label">Health Score Points</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">GPU Vendors</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">GPU Support</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">MIT</div>
+                        <div class="stat-label">License</div>
+                    </div>
+                </section>
+
+                <!-- Installation Section -->
+                <section id="installation" class="installation">
+                    <h2>📦 Quick Installation</h2>
+                    
+                    <!-- Elegant Banner -->
+                    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border: 2px solid rgba(102, 126, 234, 0.3); border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; text-align: center;">
+                        <button onclick="toggleContent('pypi-details')" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; padding: 0.8rem 1.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                            📋 View Full Installation Details Here
+                        </button>
+                        
+                        <div id="pypi-details" class="expanded-content" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.9); border-radius: 8px; border: 1px solid rgba(102, 126, 234, 0.2);">
+                            <h4 style="color: #333; margin-bottom: 1rem; font-size: 1.2rem;">📦 GPU Benchmark Tool Package</h4>
+                            <p style="color: #666; line-height: 1.6; margin-bottom: 1.5rem;">
+                                A comprehensive multi-vendor GPU health monitoring and optimization tool that helps users assess GPU performance and select optimal hardware for their workloads. Features include temperature monitoring, power analysis, utilization tracking, and advanced stress testing capabilities.
+                            </p>
+                            <a href="https://pypi.org/project/gpu-benchmark-tool/" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                                🔗 View on PyPI
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <p>Install GPU Benchmark Tool with a single command:</p>
+                    
+                    <div class="code-block">
+                        <span class="highlight"># Basic installation (works on any system)</span><br>
+                        pip install gpu-benchmark-tool<br><br>
+                        
+                        <span class="highlight"># For NVIDIA GPUs (adds NVIDIA monitoring)</span><br>
+                        pip install gpu-benchmark-tool[nvidia]<br><br>
+                        
+                        <span class="highlight"># For AMD GPUs (relies on system ROCm)</span><br>
+                        pip install gpu-benchmark-tool[amd]<br><br>
+                        
+                        <span class="highlight"># For all GPU vendors (maximum compatibility)</span><br>
+                        pip install gpu-benchmark-tool[all]
+                    </div>
+                    
+                    <h3>🚀 Quick Start</h3>
+                    <div class="code-block">
+                        <span class="highlight"># List available GPUs</span><br>
+                        gpu-benchmark list<br><br>
+                        
+                        <span class="highlight"># Run benchmark on GPU 0</span><br>
+                        gpu-benchmark benchmark --gpu-id 0<br><br>
+                        
+                        <span class="highlight"># Quick 30-second test</span><br>
+                        gpu-benchmark benchmark --gpu-id 0 --duration 30
+                    </div>
+                </section>
+
+                <!-- Gaming Performance Section -->
+                <section class="installation">
+                    <h2>🎮 Is your GPU powerful enough for the latest games?</h2>
+                    <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">Get expert gaming performance analysis and optimization tips tailored to your hardware.</p>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <h3>FPS Optimization</h3>
+                            <p>Learn optimal game settings for your specific GPU. Improve performance with our performance tuning guides.</p>
+                            <div style="margin-top: 1rem;">
+                                <button class="expand-btn" onclick="toggleContent('fps-guide')" style="background: none; border: none; color: #667eea; cursor: pointer; font-weight: 500;">→ View FPS Guide</button>
+                            </div>
+                            <div id="fps-guide" class="expanded-content" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                                <h4>FPS Optimization Tips:</h4>
+                                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                                    <li>Lower shadow quality for significant FPS gains</li>
+                                    <li>Reduce anti-aliasing settings if needed</li>
+                                    <li>Disable unnecessary background processes</li>
+                                    <li>Update GPU drivers regularly</li>
+                                    <li>Monitor GPU temperature to prevent throttling</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Game Settings Guide</h3>
+                            <p>Optimize graphics settings for your GPU. Balance visual quality and performance for better gaming experience.</p>
+                            <div style="margin-top: 1rem;">
+                                <button class="expand-btn" onclick="toggleContent('settings-guide')" style="background: none; border: none; color: #667eea; cursor: pointer; font-weight: 500;">→ Optimize Settings</button>
+                            </div>
+                            <div id="settings-guide" class="expanded-content" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                                <h4>Recommended Settings Priority:</h4>
+                                <ol style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                                    <li>Resolution (keep native if possible)</li>
+                                    <li>Texture quality (usually safe to keep high)</li>
+                                    <li>Shadow quality (often biggest FPS impact)</li>
+                                    <li>Anti-aliasing (FXAA is usually best for performance)</li>
+                                    <li>Post-processing effects (can be reduced)</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📈</div>
+                            <h3>Upgrade Recommendations</h3>
+                            <p>Not getting the performance you want? Get personalized GPU upgrade recommendations based on your current setup.</p>
+                            <div style="margin-top: 1rem;">
+                                <button class="expand-btn" onclick="toggleContent('upgrade-guide')" style="background: none; border: none; color: #667eea; cursor: pointer; font-weight: 500;">→ Find Your Upgrade</button>
+                            </div>
+                            <div id="upgrade-guide" class="expanded-content" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                                <h4>Upgrade Considerations:</h4>
+                                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                                    <li>Check your power supply wattage</li>
+                                    <li>Ensure motherboard compatibility</li>
+                                    <li>Consider case size and cooling</li>
+                                    <li>Look at price-to-performance ratios</li>
+                                    <li>Research current market prices</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+
+                <!-- System Optimization Section -->
+                <section class="installation">
+                    <h2>🔧 Is your hardware holding you back from peak performance?</h2>
+                    <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">Identify bottlenecks and optimize your system for maximum performance.</p>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🔍</div>
+                            <h3>Bottleneck Detection</h3>
+                            <p>Find out what's limiting your performance. CPU, RAM, storage, or GPU - we'll identify the weak link in your system.</p>
+                            <div style="margin-top: 1rem;">
+                                <button class="expand-btn" onclick="toggleContent('bottleneck-guide')" style="background: none; border: none; color: #667eea; cursor: pointer; font-weight: 500;">→ Detect Bottlenecks</button>
+                            </div>
+                            <div id="bottleneck-guide" class="expanded-content" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                                <h4>Common Bottlenecks:</h4>
+                                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                                    <li><strong>CPU Bottleneck:</strong> High CPU usage, low GPU usage</li>
+                                    <li><strong>RAM Bottleneck:</strong> High memory usage, system slowdowns</li>
+                                    <li><strong>Storage Bottleneck:</strong> Slow loading times, stuttering</li>
+                                    <li><strong>GPU Bottleneck:</strong> Low FPS despite good CPU/RAM</li>
+                                    <li><strong>Thermal Bottleneck:</strong> Performance drops due to overheating</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔄</div>
+                            <h3>Driver Optimization</h3>
+                            <p>Keep your drivers updated and optimized. Get the latest performance improvements and bug fixes for your GPU.</p>
+                            <div style="margin-top: 1rem;">
+                                <button class="expand-btn" onclick="toggleContent('driver-guide')" style="background: none; border: none; color: #667eea; cursor: pointer; font-weight: 500;">→ Update Drivers</button>
+                            </div>
+                            <div id="driver-guide" class="expanded-content" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                                <h4>Driver Optimization Tips:</h4>
+                                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                                    <li>Download drivers from official manufacturer websites</li>
+                                    <li>Use DDU (Display Driver Uninstaller) for clean installs</li>
+                                    <li>Don't update drivers too frequently unless needed</li>
+                                    <li>Keep a backup of working drivers</li>
+                                    <li>Test performance before and after updates</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">❄️</div>
+                            <h3>Cooling Solutions</h3>
+                            <p>Prevent thermal throttling with proper cooling. Learn about case airflow, thermal paste, and cooling upgrades.</p>
+                            <div style="margin-top: 1rem;">
+                                <button class="expand-btn" onclick="toggleContent('cooling-guide')" style="background: none; border: none; color: #667eea; cursor: pointer; font-weight: 500;">→ Cooling Guide</button>
+                            </div>
+                            <div id="cooling-guide" class="expanded-content" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                                <h4>Cooling Optimization:</h4>
+                                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                                    <li>Ensure proper case airflow (intake/exhaust)</li>
+                                    <li>Clean dust regularly from fans and heatsinks</li>
+                                    <li>Replace thermal paste every 2-3 years</li>
+                                    <li>Monitor temperatures with software tools</li>
+                                    <li>Consider aftermarket cooling for high-end GPUs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Upgrade Guidance Section -->
+                <section class="installation">
+                    <h2>🚀 Which upgrade will give you the biggest performance boost?</h2>
+                    <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">Make informed upgrade decisions with our performance analysis and compatibility checker.</p>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">⚖️</div>
+                            <h3>Component Comparisons</h3>
+                            <p>Compare GPUs, CPUs, and RAM side-by-side. See real performance differences and price-to-performance ratios.</p>
+                            <div style="margin-top: 1rem;">
+                                <button class="expand-btn" onclick="toggleContent('comparison-guide')" style="background: none; border: none; color: #667eea; cursor: pointer; font-weight: 500;">→ Compare Components</button>
+                            </div>
+                            <div id="comparison-guide" class="expanded-content" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                                <h4>Comparison Factors:</h4>
+                                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                                    <li><strong>Performance:</strong> Benchmark scores and real-world tests</li>
+                                    <li><strong>Price/Performance:</strong> Value for money ratio</li>
+                                    <li><strong>Power Efficiency:</strong> TDP and power consumption</li>
+                                    <li><strong>Features:</strong> Ray tracing, DLSS, etc.</li>
+                                    <li><strong>Future-Proofing:</strong> How long it will remain relevant</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔗</div>
+                            <h3>Compatibility Checker</h3>
+                            <p>Ensure your upgrades are compatible. Check power supply, motherboard, and case compatibility before buying.</p>
+                            <div style="margin-top: 1rem;">
+                                <button class="expand-btn" onclick="toggleContent('compatibility-guide')" style="background: none; border: none; color: #667eea; cursor: pointer; font-weight: 500;">→ Check Compatibility</button>
+                            </div>
+                            <div id="compatibility-guide" class="expanded-content" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                                <h4>Compatibility Checklist:</h4>
+                                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                                    <li><strong>Power Supply:</strong> Check wattage and PCIe connectors</li>
+                                    <li><strong>Motherboard:</strong> PCIe slot compatibility and BIOS support</li>
+                                    <li><strong>Case:</strong> GPU length and width clearance</li>
+                                    <li><strong>CPU:</strong> Potential bottleneck with new GPU</li>
+                                    <li><strong>RAM:</strong> Sufficient memory for your workload</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💰</div>
+                            <h3>Best Value Recommendations</h3>
+                            <p>Get the most bang for your buck. Our recommendations focus on the best price-to-performance upgrades.</p>
+                            <div style="margin-top: 1rem;">
+                                <button class="expand-btn" onclick="toggleContent('value-guide')" style="background: none; border: none; color: #667eea; cursor: pointer; font-weight: 500;">→ Best Value Picks</button>
+                            </div>
+                            <div id="value-guide" class="expanded-content" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                                <h4>Value Considerations:</h4>
+                                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                                    <li><strong>Budget Range:</strong> Set realistic spending limits</li>
+                                    <li><strong>Performance Needs:</strong> Match hardware to your use case</li>
+                                    <li><strong>Used Market:</strong> Consider refurbished or used options</li>
+                                    <li><strong>Sales Timing:</strong> Wait for seasonal discounts</li>
+                                    <li><strong>Long-term Value:</strong> Consider future upgrade paths</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+
+
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+
+
+                <!-- Quick Links -->
+                <div class="installation">
+                    <h3>🔗 Quick Links</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 0.5rem 0;">
+                            <a href="https://pypi.org/project/gpu-benchmark-tool/" target="_blank" style="color: #667eea; text-decoration: none;">
+                                <i class="fab fa-python"></i> PyPI Package
+                            </a>
+                        </li>
+                        <li style="margin: 0.5rem 0;">
+                            <button onclick="toggleContent('contact-support')" style="background: none; border: none; color: #667eea; cursor: pointer; font-size: 1rem; padding: 0;">
+                                <i class="fas fa-envelope"></i> Contact Support
+                            </button>
+                            <div id="contact-support" class="expanded-content" style="display: none; margin-top: 0.5rem; padding: 0.8rem; background: rgba(102, 126, 234, 0.1); border-radius: 6px; font-size: 0.9rem; color: #666;">
+                                Please view PyPI package for support information and documentation.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Supported GPUs -->
+                <div class="installation">
+                    <h3>🖥️ Supported GPUs</h3>
+                    <div style="font-size: 0.9rem;">
+                        <p><strong>NVIDIA:</strong> RTX 4090, 4080, 4070, 3090, 3080, 3070, 3060, A100, V100</p>
+                        <p><strong>AMD:</strong> MI250X, MI210, RX 7900 XTX, RX 6900 XT</p>
+                        <p><strong>Intel:</strong> Arc A770, A750, Xe integrated</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>🚀 GPU Benchmark Tool - Professional GPU Health Monitoring</p>
+            <p>Built to solve real-world GPU selection challenges and reduce cloud computing costs</p>
+            <p>© 2025 Yousuf Rajput. MIT License.</p>
+            <p>
+                <a href="https://pypi.org/project/gpu-benchmark-tool/" target="_blank">PyPI</a> | 
+                <a href="https://pypi.org/project/gpu-benchmark-tool/" target="_blank">Contact</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add loading animation to CTA button
+        document.querySelector('.cta-button').addEventListener('click', function() {
+            this.innerHTML = '<span class="loading"></span> Installing...';
+        });
+
+        // Toggle expandable content
+        function toggleContent(contentId) {
+            const content = document.getElementById(contentId);
+            const button = event.target;
+            
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                button.textContent = button.textContent.replace('→', '↓');
+            } else {
+                content.style.display = 'none';
+                button.textContent = button.textContent.replace('↓', '→');
+            }
+        }
+    </script>
+</body>
+</html>
