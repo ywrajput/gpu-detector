@@ -16,6 +16,13 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -317,6 +324,82 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* Upload Area Styles */
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(102, 126, 234, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .upload-area.dragover {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+            transform: scale(1.02);
+        }
+
+        .upload-content {
+            pointer-events: none;
+        }
+
+        /* Chart Styles */
+        .charts-section {
+            margin: 2rem 0;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .chart-container canvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* PDF Section Styles */
+        .pdf-section {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .pdf-section button {
+            transition: all 0.3s ease;
+        }
+
+        .pdf-section button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .pdf-section button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        /* Health Status Colors */
+        .health-excellent { color: #4CAF50; }
+        .health-good { color: #8BC34A; }
+        .health-degraded { color: #FF9800; }
+        .health-critical { color: #F44336; }
     </style>
 </head>
 <body>
@@ -371,6 +454,73 @@
                             <div class="feature-icon">🧪</div>
                             <h3>Mock Mode</h3>
                             <p>Test on any computer without GPUs. Perfect for development and demonstration purposes.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- GPU Stress Test Results Upload & Visualization -->
+                <section class="features" id="stress-test-results">
+                    <h2>📊 Upload & Analyze GPU Stress Test Results</h2>
+                    <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem; text-align: center;">
+                        Upload your GPU stress test JSON results to get interactive visualizations and detailed analysis
+                    </p>
+                    
+                    <!-- Upload Section -->
+                    <div class="feature-card" style="margin-bottom: 2rem;">
+                        <div class="feature-icon">📁</div>
+                        <h3>Upload Your Results</h3>
+                        <p>Drag and drop your GPU stress test JSON file or click to browse</p>
+                        <div class="upload-area" id="uploadArea">
+                            <input type="file" id="fileInput" accept=".json" style="display: none;">
+                            <div class="upload-content">
+                                <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: #667eea; margin-bottom: 1rem;"></i>
+                                <p>Drop your JSON file here or <span style="color: #667eea; cursor: pointer;" onclick="document.getElementById('fileInput').click()">browse files</span></p>
+                                <p style="font-size: 0.9rem; color: #999;">Supports GPU stress test results in JSON format</p>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <button onclick="loadSampleData()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">
+                                <i class="fas fa-flask"></i> Load Sample Data
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Results Display -->
+                    <div id="resultsContainer" style="display: none;">
+                        <!-- Summary Cards -->
+                        <div class="stats" id="summaryStats">
+                            <!-- Summary stats will be populated here -->
+                        </div>
+
+                        <!-- Charts Section -->
+                        <div class="charts-section">
+                            <h3 style="margin-bottom: 1.5rem; color: #333;">📈 Performance Metrics Over Time</h3>
+                            
+                            <!-- Chart Container -->
+                            <div class="chart-container">
+                                <canvas id="utilizationChart" width="400" height="200"></canvas>
+                            </div>
+                            
+                            <div class="chart-container">
+                                <canvas id="temperatureChart" width="400" height="200"></canvas>
+                            </div>
+                            
+                            <div class="chart-container">
+                                <canvas id="powerChart" width="400" height="200"></canvas>
+                            </div>
+                            
+                            <div class="chart-container">
+                                <canvas id="memoryChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Download PDF Report -->
+                        <div class="pdf-section">
+                            <h3 style="margin: 2rem 0 1rem 0; color: #333;">📄 Download Full Report</h3>
+                            <p style="color: #666; margin-bottom: 1rem;">Get a comprehensive PDF report with detailed insights and analysis</p>
+                            <button onclick="generatePDFReport()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 1rem 2rem; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600;">
+                                <i class="fas fa-download"></i> Download PDF Report
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -679,6 +829,11 @@
                             </a>
                         </li>
                         <li style="margin: 0.5rem 0;">
+                            <a href="#stress-test-results" style="color: #667eea; text-decoration: none;">
+                                <i class="fas fa-chart-line"></i> Upload Results
+                            </a>
+                        </li>
+                        <li style="margin: 0.5rem 0;">
                             <button onclick="toggleContent('contact-support')" style="background: none; border: none; color: #667eea; cursor: pointer; font-size: 1rem; padding: 0;">
                                 <i class="fas fa-envelope"></i> Contact Support
                             </button>
@@ -743,6 +898,910 @@
                 content.style.display = 'none';
                 button.textContent = button.textContent.replace('↓', '→');
             }
+        }
+
+        // GPU Stress Test Results Upload & Visualization
+        let charts = {};
+
+        // File upload handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            // Drag and drop functionality
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFile(files[0]);
+                }
+            });
+
+            uploadArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    handleFile(e.target.files[0]);
+                }
+            });
+        });
+
+        function handleFile(file) {
+            if (file.type !== 'application/json' && !file.name.endsWith('.json')) {
+                alert('Please upload a JSON file');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    processResults(data);
+                } catch (error) {
+                    alert('Invalid JSON file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function processResults(data) {
+            document.getElementById('resultsContainer').style.display = 'block';
+            
+            // Generate summary stats
+            generateSummaryStats(data);
+            
+            // Generate charts
+            generateCharts(data);
+            
+            // Store data for PDF generation
+            window.currentData = data;
+            
+            // Scroll to results
+            document.getElementById('stress-test-results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateSummaryStats(data) {
+            const summaryStats = document.getElementById('summaryStats');
+            const gpuData = data.results.gpu_0;
+            
+            let healthClass = 'health-excellent';
+            if (gpuData.health_score.score < 40) healthClass = 'health-critical';
+            else if (gpuData.health_score.score < 55) healthClass = 'health-degraded';
+            else if (gpuData.health_score.score < 70) healthClass = 'health-good';
+
+            summaryStats.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number ${healthClass}">${gpuData.health_score.score}</div>
+                    <div class="stat-label">Health Score</div>
+                    <div style="font-size: 0.8rem; margin-top: 0.5rem; color: #666;">
+                        ${gpuData.health_score.status}
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${gpuData.gpu_info['Temperature (C)']}°C</div>
+                    <div class="stat-label">Current Temp</div>
+                    <div style="font-size: 0.8rem; margin-top: 0.5rem; color: #666;">
+                        Max: ${gpuData.metrics.max_temp}°C
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${gpuData.gpu_info['Power Usage (W)'].toFixed(1)}W</div>
+                    <div class="stat-label">Power Usage</div>
+                    <div style="font-size: 0.8rem; margin-top: 0.5rem; color: #666;">
+                        Max: ${gpuData.metrics.max_power.toFixed(1)}W
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${gpuData.metrics.avg_utilization.toFixed(1)}%</div>
+                    <div class="stat-label">Avg Utilization</div>
+                    <div style="font-size: 0.8rem; margin-top: 0.5rem; color: #666;">
+                        During Test
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateCharts(data) {
+            const gpuData = data.results.gpu_0;
+            const telemetry = gpuData.metrics.telemetry_sample;
+            
+            // Destroy existing charts
+            Object.values(charts).forEach(chart => {
+                if (chart) chart.destroy();
+            });
+            charts = {};
+
+            // Prepare data for charts
+            const timestamps = telemetry.map((t, i) => i);
+            const temperatures = telemetry.map(t => t.temp_c);
+            const powerUsage = telemetry.map(t => t.power_w);
+            const utilization = telemetry.map(t => t.gpu_util_pct);
+            const throttling = telemetry.map(t => t.throttling ? 100 : 0);
+
+            // Utilization Chart
+            const utilizationCtx = document.getElementById('utilizationChart').getContext('2d');
+            charts.utilization = new Chart(utilizationCtx, {
+                type: 'line',
+                data: {
+                    labels: timestamps,
+                    datasets: [{
+                        label: 'GPU Utilization (%)',
+                        data: utilization,
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'GPU Utilization Over Time',
+                            font: { size: 16, weight: 'bold' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: { display: true, text: 'Utilization (%)' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Time Sample' }
+                        }
+                    }
+                }
+            });
+
+            // Temperature Chart
+            const temperatureCtx = document.getElementById('temperatureChart').getContext('2d');
+            charts.temperature = new Chart(temperatureCtx, {
+                type: 'line',
+                data: {
+                    labels: timestamps,
+                    datasets: [{
+                        label: 'Temperature (°C)',
+                        data: temperatures,
+                        borderColor: '#ff6b6b',
+                        backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'GPU Temperature Over Time',
+                            font: { size: 16, weight: 'bold' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: { display: true, text: 'Temperature (°C)' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Time Sample' }
+                        }
+                    }
+                }
+            });
+
+            // Power Usage Chart
+            const powerCtx = document.getElementById('powerChart').getContext('2d');
+            charts.power = new Chart(powerCtx, {
+                type: 'line',
+                data: {
+                    labels: timestamps,
+                    datasets: [{
+                        label: 'Power Usage (W)',
+                        data: powerUsage,
+                        borderColor: '#4ecdc4',
+                        backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Power Usage Over Time',
+                            font: { size: 16, weight: 'bold' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: { display: true, text: 'Power (W)' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Time Sample' }
+                        }
+                    }
+                }
+            });
+
+            // Memory Utilization Chart
+            const memoryCtx = document.getElementById('memoryChart').getContext('2d');
+            const memoryUtilization = telemetry.map(t => t.mem_util_pct);
+            const memoryBandwidth = telemetry.map(t => t.mem_bandwidth_pct);
+            
+            charts.memory = new Chart(memoryCtx, {
+                type: 'line',
+                data: {
+                    labels: timestamps,
+                    datasets: [{
+                        label: 'Memory Utilization (%)',
+                        data: memoryUtilization,
+                        borderColor: '#9c27b0',
+                        backgroundColor: 'rgba(156, 39, 176, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                        yAxisID: 'y'
+                    }, {
+                        label: 'Memory Bandwidth (%)',
+                        data: memoryBandwidth,
+                        borderColor: '#ff5722',
+                        backgroundColor: 'rgba(255, 87, 34, 0.1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Memory Utilization & Bandwidth Over Time',
+                            font: { size: 16, weight: 'bold' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: { display: true, text: 'Memory Utilization (%)' },
+                            beginAtZero: true,
+                            max: 100
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: { display: true, text: 'Memory Bandwidth (%)' },
+                            beginAtZero: true,
+                            max: 100,
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                        },
+                        x: {
+                            title: { display: true, text: 'Time Sample' }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function generatePDFReport() {
+            if (!window.currentData) {
+                alert('No data available. Please upload a stress test result first.');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const data = window.currentData;
+            const gpuData = data.results.gpu_0;
+            
+            // Show loading message
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+            button.disabled = true;
+            
+            let yPosition = 20;
+            const pageWidth = doc.internal.pageSize.width;
+            const margin = 20;
+            const contentWidth = pageWidth - (2 * margin);
+
+            // Title
+            doc.setFontSize(24);
+            doc.setFont('helvetica', 'bold');
+            doc.text('GPU Stress Test Report', pageWidth / 2, yPosition, { align: 'center' });
+            yPosition += 20;
+
+            // GPU Information
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('GPU Information', margin, yPosition);
+            yPosition += 10;
+
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`GPU Name: ${gpuData.gpu_info.name}`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Current Temperature: ${gpuData.gpu_info['Temperature (C)']}°C`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Current Power Usage: ${gpuData.gpu_info['Power Usage (W)'].toFixed(1)}W`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Memory Used: ${gpuData.gpu_info['Memory Used (MB)']} MB / ${gpuData.gpu_info['Memory Total (MB)']} MB`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Fan Speed: ${gpuData.gpu_info['Fan Speed (%)']}%`, margin, yPosition);
+            yPosition += 15;
+
+            // Health Score
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Health Assessment', margin, yPosition);
+            yPosition += 10;
+
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Health Score: ${gpuData.health_score.score}/100`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Status: ${gpuData.health_score.status}`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Recommendation: ${gpuData.health_score.recommendation}`, margin, yPosition);
+            yPosition += 15;
+
+            // Performance Metrics
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Performance Metrics', margin, yPosition);
+            yPosition += 10;
+
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Average Utilization: ${gpuData.metrics.avg_utilization.toFixed(1)}%`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Maximum Temperature: ${gpuData.metrics.max_temp}°C`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Maximum Power: ${gpuData.metrics.max_power.toFixed(1)}W`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Baseline Temperature: ${gpuData.metrics.baseline_temp}°C`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Baseline Power: ${gpuData.metrics.baseline_power.toFixed(1)}W`, margin, yPosition);
+            yPosition += 15;
+
+            // Temperature Stability Analysis
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Temperature Stability Analysis', margin, yPosition);
+            yPosition += 10;
+
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            const tempStability = gpuData.metrics.temperature_stability;
+            doc.text(`Stability Score: ${tempStability.stability_score.toFixed(1)}/100`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Standard Deviation: ${tempStability.std_dev.toFixed(2)}°C`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Maximum Temperature Delta: ${tempStability.max_delta}°C`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Average Rate of Change: ${tempStability.avg_rate_of_change.toFixed(3)}°C/sample`, margin, yPosition);
+            yPosition += 15;
+
+            // Throttling Analysis
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Throttling Analysis', margin, yPosition);
+            yPosition += 10;
+
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            const throttleEvents = gpuData.metrics.throttle_events;
+            const totalThrottleEvents = throttleEvents.length;
+            const swPowerCapEvents = throttleEvents.filter(e => e.reasons.includes('SW Power Cap')).length;
+            const hwSlowdownEvents = throttleEvents.filter(e => e.reasons.includes('HW Slowdown')).length;
+            const gpuIdleEvents = throttleEvents.filter(e => e.reasons.includes('GPU Idle')).length;
+
+            doc.text(`Total Throttling Events: ${totalThrottleEvents}`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Software Power Cap Events: ${swPowerCapEvents}`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`Hardware Slowdown Events: ${hwSlowdownEvents}`, margin, yPosition);
+            yPosition += 6;
+            doc.text(`GPU Idle Events: ${gpuIdleEvents}`, margin, yPosition);
+            yPosition += 15;
+
+            // Check if we need a new page for stress test results
+            if (yPosition > 250) {
+                doc.addPage();
+                yPosition = 20;
+            }
+
+            // Stress Test Results
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Stress Test Performance', margin, yPosition);
+            yPosition += 10;
+
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            
+            if (gpuData.stress_test_results) {
+                const stressResults = gpuData.stress_test_results;
+                
+                // Matrix Multiply Performance
+                if (stressResults.matrix_multiply) {
+                    const mm = stressResults.matrix_multiply;
+                    doc.text(`Matrix Multiply Performance:`, margin, yPosition);
+                    yPosition += 6;
+                    doc.text(`  • TFLOPS: ${mm.tflops.toFixed(2)}`, margin + 5, yPosition);
+                    yPosition += 6;
+                    doc.text(`  • Matrix Size: ${mm.matrix_size}x${mm.matrix_size}`, margin + 5, yPosition);
+                    yPosition += 6;
+                    doc.text(`  • Iterations: ${mm.iterations}`, margin + 5, yPosition);
+                    yPosition += 6;
+                    doc.text(`  • Avg Time per Iteration: ${(mm.avg_time_per_iter * 1000).toFixed(2)}ms`, margin + 5, yPosition);
+                    yPosition += 10;
+                }
+
+                // Memory Bandwidth
+                if (stressResults.memory_bandwidth) {
+                    const mb = stressResults.memory_bandwidth;
+                    doc.text(`Memory Bandwidth Test:`, margin, yPosition);
+                    yPosition += 6;
+                    doc.text(`  • Bandwidth: ${mb.bandwidth_gbps.toFixed(2)} GB/s`, margin + 5, yPosition);
+                    yPosition += 6;
+                    doc.text(`  • Test Size: ${mb.size_mb} MB`, margin + 5, yPosition);
+                    yPosition += 6;
+                    doc.text(`  • Iterations: ${mb.iterations}`, margin + 5, yPosition);
+                    yPosition += 10;
+                }
+
+                // VRAM Stress Test
+                if (stressResults.vram_stress) {
+                    const vram = stressResults.vram_stress;
+                    doc.text(`VRAM Stress Test:`, margin, yPosition);
+                    yPosition += 6;
+                    doc.text(`  • Allocated: ${vram.actual_allocated_gb.toFixed(2)} GB`, margin + 5, yPosition);
+                    yPosition += 6;
+                    doc.text(`  • Target Usage: ${vram.target_usage_pct}%`, margin + 5, yPosition);
+                    yPosition += 6;
+                    doc.text(`  • Number of Tensors: ${vram.num_tensors}`, margin + 5, yPosition);
+                    yPosition += 6;
+                    doc.text(`  • Stability: ${vram.stable ? 'Stable' : 'Unstable'}`, margin + 5, yPosition);
+                    yPosition += 10;
+                }
+
+                // Mixed Precision Analysis
+                if (stressResults.mixed_precision) {
+                    const mp = stressResults.mixed_precision;
+                    doc.text(`Mixed Precision Performance:`, margin, yPosition);
+                    yPosition += 6;
+                    
+                    if (mp.fp32 && mp.fp32.supported) {
+                        doc.text(`  • FP32 TFLOPS: ${mp.fp32.tflops.toFixed(2)}`, margin + 5, yPosition);
+                        yPosition += 6;
+                    }
+                    
+                    if (mp.fp16 && mp.fp16.supported) {
+                        doc.text(`  • FP16 TFLOPS: ${mp.fp16.tflops.toFixed(2)} (${mp.fp16_speedup.toFixed(2)}x speedup)`, margin + 5, yPosition);
+                        yPosition += 6;
+                    }
+                    
+                    if (mp.bf16 && mp.bf16.supported) {
+                        doc.text(`  • BF16 TFLOPS: ${mp.bf16.tflops.toFixed(2)} (${mp.bf16_speedup.toFixed(2)}x speedup)`, margin + 5, yPosition);
+                        yPosition += 6;
+                    }
+                    
+                    if (mp.int8 && mp.int8.supported) {
+                        doc.text(`  • INT8 TFLOPS: ${mp.int8.tflops.toFixed(2)} (${mp.int8_speedup.toFixed(2)}x speedup)`, margin + 5, yPosition);
+                        yPosition += 6;
+                    }
+                    
+                    doc.text(`  • Mixed Precision Ready: ${mp.mixed_precision_ready ? 'Yes' : 'No'}`, margin + 5, yPosition);
+                    yPosition += 10;
+                }
+            }
+
+            // Check if we need a new page for recommendations
+            if (yPosition > 250) {
+                doc.addPage();
+                yPosition = 20;
+            }
+
+            // Recommendations
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Recommendations', margin, yPosition);
+            yPosition += 10;
+
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            
+            // Health-based recommendations
+            if (gpuData.health_score.score < 40) {
+                doc.text('• CRITICAL: GPU should not be used for production workloads', margin, yPosition);
+                yPosition += 6;
+                doc.text('• Consider replacement or professional repair', margin, yPosition);
+                yPosition += 6;
+            } else if (gpuData.health_score.score < 55) {
+                doc.text('• DEGRADED: Limit usage to inference or light compute tasks', margin, yPosition);
+                yPosition += 6;
+                doc.text('• Monitor closely and consider maintenance', margin, yPosition);
+                yPosition += 6;
+            } else if (gpuData.health_score.score < 70) {
+                doc.text('• GOOD: Suitable for most workloads with minor optimization', margin, yPosition);
+                yPosition += 6;
+            } else {
+                doc.text('• EXCELLENT: Safe for all workloads including AI training', margin, yPosition);
+                yPosition += 6;
+            }
+
+            // Throttling recommendations
+            if (totalThrottleEvents > 0) {
+                yPosition += 6;
+                doc.text('• Throttling detected - consider improving cooling or power delivery', margin, yPosition);
+                yPosition += 6;
+            }
+
+            // Temperature recommendations
+            if (gpuData.metrics.max_temp > 80) {
+                yPosition += 6;
+                doc.text('• High temperature detected - improve cooling system', margin, yPosition);
+                yPosition += 6;
+            }
+
+            // Mixed precision recommendations
+            if (gpuData.stress_test_results && gpuData.stress_test_results.mixed_precision) {
+                const mp = gpuData.stress_test_results.mixed_precision;
+                if (mp.mixed_precision_ready) {
+                    yPosition += 6;
+                    doc.text('• GPU supports mixed precision - consider using FP16/BF16 for AI workloads', margin, yPosition);
+                    yPosition += 6;
+                }
+            }
+
+            // Add new page for footer
+            doc.addPage();
+            yPosition = 20;
+
+            // Footer on separate page
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'italic');
+            const timestamp = new Date().toLocaleString();
+            doc.text(`Report generated on: ${timestamp}`, margin, yPosition);
+            yPosition += 10;
+            doc.text('Generated by GPU Benchmark Tool', margin, yPosition);
+
+            // Capture and add charts to PDF
+            try {
+                // Add section header for charts
+                if (yPosition > 200) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                
+                doc.setFontSize(16);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Performance Charts & Visualizations', margin, yPosition);
+                yPosition += 15;
+                
+                // Capture charts as images
+                const chartIds = ['utilizationChart', 'temperatureChart', 'powerChart', 'memoryChart'];
+                const chartTitles = ['GPU Utilization Over Time', 'GPU Temperature Over Time', 'Power Usage Over Time', 'Memory Utilization & Bandwidth Over Time'];
+                
+                for (let i = 0; i < chartIds.length; i++) {
+                    const chartId = chartIds[i];
+                    const chartTitle = chartTitles[i];
+                    const canvas = document.getElementById(chartId);
+                    
+                    if (canvas && charts[chartId.replace('Chart', '')]) {
+                        // Add new page for charts if needed
+                        if (yPosition > 200) {
+                            doc.addPage();
+                            yPosition = 20;
+                        }
+                        
+                        // Add chart title
+                        doc.setFontSize(14);
+                        doc.setFont('helvetica', 'bold');
+                        doc.text(chartTitle, margin, yPosition);
+                        yPosition += 15;
+                        
+                        // Convert canvas to image
+                        const chartImage = canvas.toDataURL('image/png');
+                        
+                        // Calculate image dimensions to fit page
+                        const imgWidth = 170;
+                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                        
+                        // Add image to PDF
+                        doc.addImage(chartImage, 'PNG', margin, yPosition, imgWidth, imgHeight);
+                        yPosition += imgHeight + 20;
+                    }
+                }
+            } catch (error) {
+                console.log('Chart capture failed:', error);
+                // Continue without charts if there's an error
+            }
+
+            // Save the PDF
+            const filename = `gpu_stress_test_report_${gpuData.gpu_info.name.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+            doc.save(filename);
+            
+            // Restore button
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }
+
+        function loadSampleData() {
+            const sampleData = {
+                "device_count": 1,
+                "results": {
+                    "gpu_0": {
+                        "metadata": {
+                            "timestamp": "2025-08-18T22:27:30.621152",
+                            "version": "0.1.0",
+                            "duration": 65,
+                            "enhanced_mode": true
+                        },
+                        "gpu_info": {
+                            "name": "NVIDIA RTX 5000 Ada Generation",
+                            "Temperature (C)": 29,
+                            "Power Usage (W)": 12.646,
+                            "Memory Used (MB)": 508,
+                            "Memory Total (MB)": 32760,
+                            "Fan Speed (%)": 30
+                        },
+                        "metrics": {
+                            "timestamp": "2025-08-18T22:27:30.621118",
+                            "baseline_temp": 30,
+                            "baseline_power": 13.463,
+                            "max_temp": 67,
+                            "max_power": 248.681,
+                            "avg_utilization": 97.6701030927835,
+                            "temperature_stability": {
+                                "stability_score": 57.8263319292352,
+                                "std_dev": 7.383187222400381,
+                                "max_delta": 37,
+                                "avg_rate_of_change": 0.5257731958762887
+                            },
+                            "telemetry_sample": [
+                                {
+                                    "timestamp": 1755556040.5584059,
+                                    "temp_c": 64,
+                                    "power_w": 221.886,
+                                    "gpu_util_pct": 92,
+                                    "mem_util_pct": 5.899152930402931,
+                                    "mem_bandwidth_pct": 12,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556041.05922,
+                                    "temp_c": 64,
+                                    "power_w": 221.873,
+                                    "gpu_util_pct": 92,
+                                    "mem_util_pct": 5.899152930402931,
+                                    "mem_bandwidth_pct": 12,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556041.560152,
+                                    "temp_c": 64,
+                                    "power_w": 221.786,
+                                    "gpu_util_pct": 92,
+                                    "mem_util_pct": 5.899152930402931,
+                                    "mem_bandwidth_pct": 12,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556042.060974,
+                                    "temp_c": 64,
+                                    "power_w": 221.937,
+                                    "gpu_util_pct": 92,
+                                    "mem_util_pct": 5.899152930402931,
+                                    "mem_bandwidth_pct": 12,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556042.5619426,
+                                    "temp_c": 64,
+                                    "power_w": 214.591,
+                                    "gpu_util_pct": 92,
+                                    "mem_util_pct": 5.917467948717949,
+                                    "mem_bandwidth_pct": 12,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556043.0628622,
+                                    "temp_c": 64,
+                                    "power_w": 210.435,
+                                    "gpu_util_pct": 89,
+                                    "mem_util_pct": 5.917467948717949,
+                                    "mem_bandwidth_pct": 12,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556043.5651314,
+                                    "temp_c": 64,
+                                    "power_w": 206.991,
+                                    "gpu_util_pct": 89,
+                                    "mem_util_pct": 5.917467948717949,
+                                    "mem_bandwidth_pct": 12,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556044.0660732,
+                                    "temp_c": 64,
+                                    "power_w": 212.973,
+                                    "gpu_util_pct": 89,
+                                    "mem_util_pct": 5.917467948717949,
+                                    "mem_bandwidth_pct": 12,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556044.5668902,
+                                    "temp_c": 65,
+                                    "power_w": 213.149,
+                                    "gpu_util_pct": 89,
+                                    "mem_util_pct": 5.917467948717949,
+                                    "mem_bandwidth_pct": 12,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556045.0685456,
+                                    "temp_c": 65,
+                                    "power_w": 213.233,
+                                    "gpu_util_pct": 89,
+                                    "mem_util_pct": 5.917467948717949,
+                                    "mem_bandwidth_pct": 12,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556045.5703707,
+                                    "temp_c": 65,
+                                    "power_w": 213.307,
+                                    "gpu_util_pct": 89,
+                                    "mem_util_pct": 5.917467948717949,
+                                    "mem_bandwidth_pct": 12,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556046.0712736,
+                                    "temp_c": 65,
+                                    "power_w": 213.308,
+                                    "gpu_util_pct": 89,
+                                    "mem_util_pct": 5.917467948717949,
+                                    "mem_bandwidth_pct": 12,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556046.5721035,
+                                    "temp_c": 65,
+                                    "power_w": 210.671,
+                                    "gpu_util_pct": 76,
+                                    "mem_util_pct": 5.923572954822955,
+                                    "mem_bandwidth_pct": 19,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556047.0731878,
+                                    "temp_c": 66,
+                                    "power_w": 221.032,
+                                    "gpu_util_pct": 97,
+                                    "mem_util_pct": 5.923572954822955,
+                                    "mem_bandwidth_pct": 40,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556047.5757217,
+                                    "temp_c": 66,
+                                    "power_w": 231.845,
+                                    "gpu_util_pct": 97,
+                                    "mem_util_pct": 5.923572954822955,
+                                    "mem_bandwidth_pct": 40,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556048.0782144,
+                                    "temp_c": 67,
+                                    "power_w": 237.324,
+                                    "gpu_util_pct": 96,
+                                    "mem_util_pct": 5.923572954822955,
+                                    "mem_bandwidth_pct": 40,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556048.579166,
+                                    "temp_c": 67,
+                                    "power_w": 237.4,
+                                    "gpu_util_pct": 96,
+                                    "mem_util_pct": 5.923572954822955,
+                                    "mem_bandwidth_pct": 40,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556049.1165595,
+                                    "temp_c": 67,
+                                    "power_w": 237.608,
+                                    "gpu_util_pct": 96,
+                                    "mem_util_pct": 5.923572954822955,
+                                    "mem_bandwidth_pct": 40,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556049.6183918,
+                                    "temp_c": 67,
+                                    "power_w": 237.825,
+                                    "gpu_util_pct": 96,
+                                    "mem_util_pct": 5.923572954822955,
+                                    "mem_bandwidth_pct": 40,
+                                    "throttling": true
+                                },
+                                {
+                                    "timestamp": 1755556050.119304,
+                                    "temp_c": 67,
+                                    "power_w": 238.014,
+                                    "gpu_util_pct": 96,
+                                    "mem_util_pct": 5.923572954822955,
+                                    "mem_bandwidth_pct": 40,
+                                    "throttling": true
+                                }
+                            ]
+                        },
+                        "health_score": {
+                            "score": 60,
+                            "status": "degraded",
+                            "recommendation": "GPU showing signs of stress. Limit to inference or light compute.",
+                            "details": {
+                                "breakdown": {
+                                    "temperature": 20,
+                                    "baseline_temp": 10,
+                                    "power_efficiency": 0,
+                                    "utilization": 5,
+                                    "throttling": 0,
+                                    "errors": 20,
+                                    "temperature_stability": 5
+                                },
+                                "specific_recommendations": [
+                                    "Throttling detected. May need better cooling or power delivery."
+                                ],
+                                "max_score": 100
+                            }
+                        }
+                    }
+                },
+                "summary": {
+                    "total_gpus": 1,
+                    "healthy_gpus": 0,
+                    "warnings": [
+                        "gpu_0: degraded - GPU showing signs of stress. Limit to inference or light compute."
+                    ],
+                    "recommendations": [],
+                    "health_percentage": 0.0
+                }
+            };
+            
+            processResults(sampleData);
         }
     </script>
 </body>
