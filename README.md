@@ -32,22 +32,22 @@ A comprehensive, multi-vendor GPU health monitoring and optimization tool that p
 - **Deployment**: Netlify, GitHub Pages
 - **Analytics**: Google Analytics, Google AdSense
 
-## 📱 Supported GPUs
+## 📱 GPU Compatibility
 
-### NVIDIA GPUs
-- RTX 4000 Series (RTX 4090, 4080, 4070, etc.)
-- RTX 3000 Series (RTX 3090, 3080, 3070, etc.)
-- RTX 2000 Series (RTX 2080, 2070, 2060, etc.)
-- GTX 1000 Series (GTX 1080, 1070, 1060, etc.)
+### Multi-Vendor Support
+Our tool is designed to work with GPUs from all major manufacturers:
 
-### AMD GPUs
-- RX 7000 Series (RX 7900, 7800, 7700, etc.)
-- RX 6000 Series (RX 6900, 6800, 6700, etc.)
-- RX 5000 Series (RX 5700, 5600, 5500, etc.)
+- **NVIDIA GPUs**: Consumer, workstation, and data center GPUs
+- **AMD GPUs**: Gaming, professional, and compute GPUs  
+- **Intel GPUs**: Arc discrete and integrated graphics
 
-### Intel GPUs
-- Arc Series (Arc A770, A750, A580, etc.)
-- Integrated Graphics (UHD, Iris Xe, etc.)
+### Compatibility Notes
+- **Automatic Detection**: The tool automatically detects available GPUs
+- **Driver Dependent**: Full functionality requires up-to-date GPU drivers
+- **Cross-Platform**: Works on Windows, macOS, and Linux systems
+- **Cloud Ready**: Designed for cloud deployment and remote monitoring
+
+*Note: Specific GPU model compatibility may vary based on driver support and system configuration.*
 
 ## 🔧 Installation
 
