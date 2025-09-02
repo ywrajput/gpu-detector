@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://gpu-benchmark.org/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
