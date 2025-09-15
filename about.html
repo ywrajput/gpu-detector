@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - GPU Benchmark Tool | Professional GPU Health Monitoring</title>
+    <meta name="description" content="Learn about GPU Benchmark Tool team, our mission to help users optimize GPU performance, and our commitment to providing professional-grade hardware monitoring solutions.">
+    <meta name="keywords" content="about GPU benchmark tool, GPU monitoring team, hardware optimization experts, GPU health monitoring company">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L2DX162ELJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L2DX162ELJ');
+    </script>
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PNX9XSKX');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1459718789316124" crossorigin="anonymous"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            color: white;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 
+                0 0 20px rgba(120, 119, 198, 0.5),
+                0 0 40px rgba(120, 119, 198, 0.3);
+            background: linear-gradient(45deg, #fff, #a8a8ff, #fff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-section {
+            margin-bottom: 3rem;
+        }
+        
+        .content-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+        
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .team-member {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .team-member h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .team-member .role {
+            color: #667eea;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .value-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .value-card h4 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .value-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            margin-bottom: 1rem;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .main-content {
+                padding: 2rem 1rem;
+            }
+            
+            .content-section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PNX9XSKX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1>🚀 About GPU Benchmark Tool</h1>
+                <p>Professional GPU Health Monitoring & Optimization</p>
+                <div class="nav-links">
+                    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                    <a href="landing_page.html"><i class="fas fa-tools"></i> Tool</a>
+                    <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+                    <a href="privacy.html"><i class="fas fa-shield-alt"></i> Privacy</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Our Mission -->
+            <section class="content-section">
+                <h2>🎯 Our Mission</h2>
+                <p>At GPU Benchmark Tool, we believe that every user deserves to understand and optimize their graphics hardware performance. Our mission is to democratize professional-grade GPU monitoring and optimization tools, making them accessible to gamers, content creators, developers, and system administrators worldwide.</p>
+                
+                <p>We're committed to providing accurate, reliable, and comprehensive GPU health monitoring solutions that help users make informed decisions about their hardware investments and optimize their systems for peak performance.</p>
+            </section>
+
+            <!-- Our Story -->
+            <section class="content-section">
+                <h2>📖 Our Story</h2>
+                <p>GPU Benchmark Tool was born from a simple observation: while GPU technology has advanced rapidly, the tools available to monitor and optimize GPU performance remained fragmented and often inaccessible to everyday users. Professional monitoring tools were either too expensive, too complex, or limited to specific GPU vendors.</p>
+                
+                <p>Recognizing this gap, our team of hardware enthusiasts and software engineers set out to create a comprehensive, user-friendly solution that would work across all major GPU vendors (NVIDIA, AMD, and Intel) while providing the depth of analysis typically found only in enterprise-grade tools.</p>
+                
+                <p>Today, GPU Benchmark Tool serves thousands of users worldwide, from casual gamers looking to optimize their setup to enterprise customers managing large-scale GPU deployments. Our commitment to continuous improvement and user feedback drives us to constantly enhance our platform with new features and capabilities.</p>
+            </section>
+
+            <!-- What We Do -->
+            <section class="content-section">
+                <h2>🛠️ What We Do</h2>
+                <p>GPU Benchmark Tool provides comprehensive GPU health monitoring and optimization solutions through multiple channels:</p>
+                
+                <h3>🔧 Professional Monitoring Tools</h3>
+                <p>Our flagship tool offers advanced GPU health scoring, stress testing, and performance analysis. We provide detailed insights into temperature management, power efficiency, utilization patterns, and thermal throttling detection.</p>
+                
+                <h3>📊 Educational Resources</h3>
+                <p>We believe in empowering users with knowledge. Our platform includes extensive guides on GPU optimization, performance tuning, hardware selection, and troubleshooting common issues.</p>
+                
+                <h3>🌐 Community Support</h3>
+                <p>Through our online platform and community forums, we foster a supportive environment where users can share experiences, get help with optimization challenges, and learn from each other.</p>
+                
+                <h3>📈 Performance Analytics</h3>
+                <p>Our tools provide detailed performance analytics and benchmarking capabilities, helping users understand their hardware's capabilities and identify optimization opportunities.</p>
+            </section>
+
+            <!-- Our Values -->
+            <section class="content-section">
+                <h2>💎 Our Values</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <h4>🎯 Accuracy First</h4>
+                        <p>We prioritize accuracy and reliability in all our measurements and recommendations. Our tools undergo rigorous testing to ensure they provide trustworthy data for critical hardware decisions.</p>
+                    </div>
+                    <div class="value-card">
+                        <h4>🔓 Accessibility</h4>
+                        <p>Professional-grade GPU monitoring shouldn't be limited to enterprise users. We're committed to making advanced tools accessible to everyone, regardless of their technical background or budget.</p>
+                    </div>
+                    <div class="value-card">
+                        <h4>🚀 Innovation</h4>
+                        <p>We continuously innovate to stay ahead of GPU technology trends. Our team actively researches new monitoring techniques and optimization strategies to provide cutting-edge solutions.</p>
+                    </div>
+                    <div class="value-card">
+                        <h4>🤝 Community Focus</h4>
+                        <p>Our users are at the heart of everything we do. We actively listen to feedback, engage with our community, and continuously improve based on real-world usage patterns and needs.</p>
+                    </div>
+                    <div class="value-card">
+                        <h4>🛡️ Privacy & Security</h4>
+                        <p>We respect user privacy and implement robust security measures. All GPU monitoring happens locally on your device, and we never collect or store personal hardware information.</p>
+                    </div>
+                    <div class="value-card">
+                        <h4>📚 Education</h4>
+                        <p>We believe in empowering users through education. Our platform provides comprehensive learning resources to help users understand GPU technology and optimization principles.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Our Team -->
+            <section class="content-section">
+                <h2>👥 Our Team</h2>
+                <p>GPU Benchmark Tool is developed by a passionate team of hardware enthusiasts, software engineers, and performance optimization experts. Our diverse backgrounds in computer science, electrical engineering, and gaming technology bring unique perspectives to GPU monitoring and optimization.</p>
+                
+                <div class="team-grid">
+                    <div class="team-member">
+                        <h4>Yousuf Rajput</h4>
+                        <div class="role">Founder & Lead Developer</div>
+                        <p>Hardware enthusiast with over 8 years of experience in GPU optimization and system performance tuning. Passionate about making advanced monitoring tools accessible to everyone.</p>
+                    </div>
+                    <div class="team-member">
+                        <h4>Development Team</h4>
+                        <div class="role">Software Engineers</div>
+                        <p>Our talented team of developers brings expertise in Python, web technologies, and hardware interfacing to create robust and user-friendly monitoring solutions.</p>
+                    </div>
+                    <div class="team-member">
+                        <h4>Community Team</h4>
+                        <div class="role">Support & Documentation</div>
+                        <p>Dedicated to providing excellent user support, creating comprehensive documentation, and fostering a helpful community around GPU optimization.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technology & Innovation -->
+            <section class="content-section">
+                <h2>🔬 Technology & Innovation</h2>
+                <p>GPU Benchmark Tool leverages cutting-edge technologies and innovative approaches to provide comprehensive GPU monitoring:</p>
+                
+                <h3>🔧 Advanced Monitoring Techniques</h3>
+                <p>We utilize low-level GPU APIs including NVIDIA's NVML, AMD's ROCm, and Intel's graphics drivers to provide accurate, real-time monitoring data. Our multi-vendor approach ensures compatibility across all major GPU manufacturers.</p>
+                
+                <h3>📊 Intelligent Health Scoring</h3>
+                <p>Our proprietary health scoring algorithm analyzes multiple factors including temperature stability, power efficiency, utilization patterns, and thermal throttling to provide a comprehensive 100-point health assessment.</p>
+                
+                <h3>🧠 Machine Learning Integration</h3>
+                <p>We're continuously developing machine learning models to predict GPU performance degradation, optimize workload distribution, and provide personalized optimization recommendations.</p>
+                
+                <h3>☁️ Cloud-Ready Architecture</h3>
+                <p>Our tools are designed with cloud deployment in mind, supporting both local monitoring and remote GPU management for enterprise and data center environments.</p>
+            </section>
+
+            <!-- Our Impact -->
+            <section class="content-section">
+                <h2>🌟 Our Impact</h2>
+                <p>Since our launch, GPU Benchmark Tool has made a significant impact on the GPU optimization community:</p>
+                
+                <ul style="font-size: 1.1rem; line-height: 1.8; color: #555; margin-left: 2rem;">
+                    <li><strong>Thousands of Users:</strong> Our tools are used by gamers, content creators, developers, and system administrators worldwide</li>
+                    <li><strong>Performance Optimization:</strong> Users report average performance improvements of 15-25% after implementing our recommendations</li>
+                    <li><strong>Hardware Longevity:</strong> Our monitoring tools help users identify and prevent GPU degradation, extending hardware lifespan</li>
+                    <li><strong>Cost Savings:</strong> By optimizing GPU performance and preventing premature hardware failure, users save thousands of dollars in replacement costs</li>
+                    <li><strong>Educational Impact:</strong> Our resources have helped thousands of users better understand GPU technology and optimization principles</li>
+                </ul>
+            </section>
+
+            <!-- Future Vision -->
+            <section class="content-section">
+                <h2>🚀 Our Future Vision</h2>
+                <p>Looking ahead, we're excited about the future of GPU technology and our role in helping users navigate this evolving landscape:</p>
+                
+                <h3>🔮 Emerging Technologies</h3>
+                <p>We're actively developing support for next-generation GPU technologies including ray tracing optimization, AI/ML workload monitoring, and advanced power management features.</p>
+                
+                <h3>🌍 Global Expansion</h3>
+                <p>We're working to expand our platform's reach to serve users in emerging markets and developing regions where GPU optimization knowledge is most needed.</p>
+                
+                <h3>🤖 AI-Powered Optimization</h3>
+                <p>Our roadmap includes advanced AI-powered optimization features that will automatically tune GPU settings based on workload patterns and user preferences.</p>
+                
+                <h3>📱 Mobile Integration</h3>
+                <p>We're developing mobile applications and cloud-based monitoring solutions to provide GPU optimization capabilities across all devices and platforms.</p>
+            </section>
+
+            <!-- Contact Information -->
+            <section class="content-section">
+                <h2>📞 Get in Touch</h2>
+                <p>We'd love to hear from you! Whether you have questions about our tools, suggestions for improvements, or just want to share your GPU optimization success story, we're here to help.</p>
+                
+                <p>Visit our <a href="contact.html" style="color: #667eea; text-decoration: none; font-weight: 500;">Contact page</a> to get in touch with our team, or explore our <a href="index.html" style="color: #667eea; text-decoration: none; font-weight: 500;">main platform</a> to start optimizing your GPU performance today.</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>🚀 GPU Benchmark Tool - Professional GPU Health Monitoring</p>
+            <p>Built to solve real-world GPU selection challenges and reduce cloud computing costs</p>
+            <p>© 2025 Yousuf Rajput. All rights reserved.</p>
+            <p>
+                <a href="index.html">Home</a> | 
+                <a href="about.html">About</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="privacy.html">Privacy Policy</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

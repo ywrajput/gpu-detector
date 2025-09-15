@@ -147,6 +147,29 @@
             margin-bottom: 2rem;
         }
         
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0 2rem 0;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
         .cta-button {
             display: inline-block;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
@@ -459,6 +482,12 @@
             <div class="header-content">
                 <h1>🚀 GPU Benchmark Tool</h1>
                 <p>Professional GPU Health Monitoring & Optimization</p>
+                <div class="nav-links">
+                    <a href="landing_page.html"><i class="fas fa-tools"></i> Try Tool</a>
+                    <a href="blog.html"><i class="fas fa-blog"></i> Blog</a>
+                    <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                    <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+                </div>
                 <a href="#installation" class="cta-button">
                     <i class="fas fa-download"></i> Install Now
                 </a>
@@ -910,8 +939,12 @@
             <p>Built to solve real-world GPU selection challenges and reduce cloud computing costs</p>
                                     <p>© 2025 Yousuf Rajput. All rights reserved.</p>
             <p>
-                <a href="https://pypi.org/project/gpu-benchmark-tool/" target="_blank">PyPI</a> | 
-                <a href="https://pypi.org/project/gpu-benchmark-tool/" target="_blank">Contact</a>
+                <a href="index.html">Home</a> | 
+                <a href="landing_page.html">Tool</a> | 
+                <a href="blog.html">Blog</a> | 
+                <a href="about.html">About</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="privacy.html">Privacy</a>
             </p>
         </div>
     </footer>

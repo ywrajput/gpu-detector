@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - GPU Benchmark Tool | Get Help & Support</title>
+    <meta name="description" content="Contact GPU Benchmark Tool team for support, feature requests, or questions about GPU optimization. Get help with our professional GPU health monitoring tools.">
+    <meta name="keywords" content="contact GPU benchmark tool, GPU monitoring support, hardware optimization help, GPU troubleshooting">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L2DX162ELJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L2DX162ELJ');
+    </script>
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PNX9XSKX');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1459718789316124" crossorigin="anonymous"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            color: white;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 
+                0 0 20px rgba(120, 119, 198, 0.5),
+                0 0 40px rgba(120, 119, 198, 0.3);
+            background: linear-gradient(45deg, #fff, #a8a8ff, #fff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+            margin: 2rem 0;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+        
+        .content-section {
+            margin-bottom: 3rem;
+        }
+        
+        .content-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+        
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+        
+        /* Contact Form */
+        .contact-form {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Contact Methods */
+        .contact-methods {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .contact-method {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-method:hover {
+            transform: translateY(-3px);
+        }
+        
+        .contact-method h4 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .contact-method p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-method a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .contact-method a:hover {
+            text-decoration: underline;
+        }
+        
+        /* FAQ Section */
+        .faq-item {
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #333;
+            border: none;
+            width: 100%;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        }
+        
+        .faq-answer {
+            padding: 1.5rem;
+            color: #555;
+            line-height: 1.6;
+            display: none;
+        }
+        
+        .faq-answer.show {
+            display: block;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            margin-bottom: 1rem;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .content {
+                padding: 2rem 1rem;
+            }
+            
+            .content-section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PNX9XSKX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1>📞 Contact Us</h1>
+                <p>Get Help & Support for GPU Optimization</p>
+                <div class="nav-links">
+                    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                    <a href="landing_page.html"><i class="fas fa-tools"></i> Tool</a>
+                    <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                    <a href="privacy.html"><i class="fas fa-shield-alt"></i> Privacy</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Contact Form -->
+                <section class="content-section">
+                    <h2>💬 Send Us a Message</h2>
+                    <p>Have questions about GPU optimization, need technical support, or want to suggest new features? We'd love to hear from you! Fill out the form below and we'll get back to you as soon as possible.</p>
+                    
+                    <div class="contact-form">
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Full Name *</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Subject *</label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="technical-support">Technical Support</option>
+                                    <option value="feature-request">Feature Request</option>
+                                    <option value="bug-report">Bug Report</option>
+                                    <option value="general-inquiry">General Inquiry</option>
+                                    <option value="partnership">Partnership Opportunity</option>
+                                    <option value="media-inquiry">Media Inquiry</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="gpu-type">GPU Type (Optional)</label>
+                                <select id="gpu-type" name="gpu-type">
+                                    <option value="">Select your GPU</option>
+                                    <option value="nvidia">NVIDIA</option>
+                                    <option value="amd">AMD</option>
+                                    <option value="intel">Intel</option>
+                                    <option value="multiple">Multiple GPUs</option>
+                                    <option value="unknown">Not sure</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Message *</label>
+                                <textarea id="message" name="message" placeholder="Please describe your question or issue in detail. Include any error messages, system specifications, or steps you've already tried." required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- FAQ Section -->
+                <section class="content-section">
+                    <h2>❓ Frequently Asked Questions</h2>
+                    <p>Find quick answers to common questions about GPU Benchmark Tool and GPU optimization.</p>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <i class="fas fa-chevron-down"></i> How do I install GPU Benchmark Tool?
+                        </button>
+                        <div class="faq-answer">
+                            <p>GPU Benchmark Tool can be installed via pip with a simple command: <code>pip install gpu-benchmark-tool</code>. For NVIDIA GPUs, use <code>pip install gpu-benchmark-tool[nvidia]</code>, and for AMD GPUs, use <code>pip install gpu-benchmark-tool[amd]</code>. For maximum compatibility, install with <code>pip install gpu-benchmark-tool[all]</code>.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <i class="fas fa-chevron-down"></i> Which GPUs are supported?
+                        </button>
+                        <div class="faq-answer">
+                            <p>GPU Benchmark Tool supports GPUs from all major manufacturers including NVIDIA (RTX, GTX, Quadro, Tesla series), AMD (Radeon RX, Radeon Pro, Instinct series), and Intel (Arc discrete and integrated graphics). The tool automatically detects available GPUs and provides appropriate monitoring capabilities.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <i class="fas fa-chevron-down"></i> What does the health score mean?
+                        </button>
+                        <div class="faq-answer">
+                            <p>Our health score is a 100-point system that evaluates your GPU's condition: 85-100 (Healthy - safe for all workloads), 70-84 (Good - suitable for most tasks), 55-69 (Degraded - limit to light compute), and 0-54 (Critical - consider replacement). The score considers temperature stability, power efficiency, utilization patterns, and thermal throttling.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <i class="fas fa-chevron-down"></i> Is my data safe and private?
+                        </button>
+                        <div class="faq-answer">
+                            <p>Absolutely! All GPU monitoring happens locally on your device. We don't collect, store, or transmit any personal hardware information. Your data remains completely private and secure. The tool works entirely offline once installed.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <i class="fas fa-chevron-down"></i> How often should I run GPU benchmarks?
+                        </button>
+                        <div class="faq-answer">
+                            <p>For regular monitoring, we recommend running a quick health check weekly. For comprehensive benchmarking, monthly testing is sufficient for most users. If you're experiencing performance issues or have made hardware changes, run benchmarks immediately to establish new baselines.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <i class="fas fa-chevron-down"></i> Can I use this tool for overclocking?
+                        </button>
+                        <div class="faq-answer">
+                            <p>While GPU Benchmark Tool doesn't directly overclock your GPU, it provides essential monitoring capabilities to ensure safe overclocking. Use our temperature and power monitoring features to verify stability when overclocking with other tools like MSI Afterburner or EVGA Precision X1.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Response Time -->
+                <section class="content-section">
+                    <h2>⏱️ Response Times</h2>
+                    <p>We're committed to providing timely support to all our users. Here's what you can expect:</p>
+                    
+                    <ul style="font-size: 1.1rem; line-height: 1.8; color: #555; margin-left: 2rem;">
+                        <li><strong>Technical Support:</strong> 24-48 hours for most issues</li>
+                        <li><strong>Bug Reports:</strong> Acknowledgment within 24 hours, resolution timeline varies by complexity</li>
+                        <li><strong>Feature Requests:</strong> Review and response within 1 week</li>
+                        <li><strong>General Inquiries:</strong> 2-3 business days</li>
+                        <li><strong>Partnership Opportunities:</strong> 1-2 weeks for initial response</li>
+                    </ul>
+                </section>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Contact Methods -->
+                <div class="content-section">
+                    <h3>📧 Other Ways to Reach Us</h3>
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <h4><i class="fas fa-envelope"></i> Email Support</h4>
+                            <p>For technical support and general inquiries</p>
+                            <a href="mailto:support@gpu-benchmark.org">support@gpu-benchmark.org</a>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <h4><i class="fab fa-github"></i> GitHub Issues</h4>
+                            <p>Report bugs and request features</p>
+                            <a href="https://github.com/ywrajput/gpu-detector/issues" target="_blank">GitHub Issues</a>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <h4><i class="fas fa-book"></i> Documentation</h4>
+                            <p>Comprehensive guides and tutorials</p>
+                            <a href="https://pypi.org/project/gpu-benchmark-tool/" target="_blank">PyPI Documentation</a>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <h4><i class="fas fa-users"></i> Community</h4>
+                            <p>Join our user community</p>
+                            <a href="https://github.com/ywrajput/gpu-detector/discussions" target="_blank">GitHub Discussions</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Hours -->
+                <div class="content-section">
+                    <h3>🕒 Business Hours</h3>
+                    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(102, 126, 234, 0.2);">
+                        <p><strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM PST</p>
+                        <p><strong>Saturday:</strong> 10:00 AM - 4:00 PM PST</p>
+                        <p><strong>Sunday:</strong> Closed</p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                            <em>Emergency support available 24/7 for critical issues</em>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="content-section">
+                    <h3>🔗 Quick Links</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <a href="index.html" style="color: #667eea; text-decoration: none; padding: 0.8rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px; transition: all 0.3s ease;">
+                            <i class="fas fa-home"></i> Home Page
+                        </a>
+                        <a href="landing_page.html" style="color: #667eea; text-decoration: none; padding: 0.8rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px; transition: all 0.3s ease;">
+                            <i class="fas fa-tools"></i> GPU Benchmark Tool
+                        </a>
+                        <a href="about.html" style="color: #667eea; text-decoration: none; padding: 0.8rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px; transition: all 0.3s ease;">
+                            <i class="fas fa-info-circle"></i> About Us
+                        </a>
+                        <a href="privacy.html" style="color: #667eea; text-decoration: none; padding: 0.8rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px; transition: all 0.3s ease;">
+                            <i class="fas fa-shield-alt"></i> Privacy Policy
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>🚀 GPU Benchmark Tool - Professional GPU Health Monitoring</p>
+            <p>Built to solve real-world GPU selection challenges and reduce cloud computing costs</p>
+            <p>© 2025 Yousuf Rajput. All rights reserved.</p>
+            <p>
+                <a href="index.html">Home</a> | 
+                <a href="about.html">About</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="privacy.html">Privacy Policy</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle Function
+        function toggleFAQ(button) {
+            const answer = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (answer.classList.contains('show')) {
+                answer.classList.remove('show');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                // Close all other FAQs
+                document.querySelectorAll('.faq-answer.show').forEach(item => {
+                    item.classList.remove('show');
+                });
+                document.querySelectorAll('.faq-question i').forEach(item => {
+                    item.style.transform = 'rotate(0deg)';
+                });
+                
+                // Open current FAQ
+                answer.classList.add('show');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Contact Form Handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Simple validation
+            if (!data.name || !data.email || !data.subject || !data.message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Simulate form submission
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                alert('Thank you for your message! We\'ll get back to you within 24-48 hours.');
+                this.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+
+        // Add hover effects to sidebar links
+        document.querySelectorAll('.sidebar a').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(5px)';
+                this.style.background = 'rgba(102, 126, 234, 0.2)';
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+                this.style.background = 'rgba(102, 126, 234, 0.1)';
+            });
+        });
+    </script>
+</body>
+</html>
