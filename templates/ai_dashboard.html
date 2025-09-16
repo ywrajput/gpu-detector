@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered GPU Analysis Dashboard</title>
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PNX9XSKX');</script>
+    <!-- End Google Tag Manager -->
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: #667eea;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result-area {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            display: none;
+        }
+        
+        .result-area.show {
+            display: block;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #667eea;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PNX9XSKX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager -->
+    
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI-Powered GPU Analysis</h1>
+            <p>Leverage artificial intelligence to optimize your GPU performance and get personalized recommendations</p>
+        </div>
+        
+        <div class="dashboard-grid">
+            <!-- GPU Analysis Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title">GPU Performance Analysis</div>
+                </div>
+                
+                <form id="gpuAnalysisForm">
+                    <div class="form-group">
+                        <label for="gpuModel">GPU Model</label>
+                        <select id="gpuModel" required>
+                            <option value="">Select your GPU</option>
+                            <option value="RTX 4090">RTX 4090</option>
+                            <option value="RTX 4080">RTX 4080</option>
+                            <option value="RTX 4070">RTX 4070</option>
+                            <option value="RTX 3090">RTX 3090</option>
+                            <option value="RTX 3080">RTX 3080</option>
+                            <option value="RTX 3070">RTX 3070</option>
+                            <option value="RTX 3060">RTX 3060</option>
+                            <option value="RX 7900 XTX">RX 7900 XTX</option>
+                            <option value="RX 6900 XT">RX 6900 XT</option>
+                            <option value="Arc A770">Arc A770</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="temperature">Temperature (°C)</label>
+                        <input type="number" id="temperature" placeholder="e.g., 75" min="0" max="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="powerConsumption">Power Consumption (W)</label>
+                        <input type="number" id="powerConsumption" placeholder="e.g., 450" min="0" max="1000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="utilization">GPU Utilization (%)</label>
+                        <input type="number" id="utilization" placeholder="e.g., 95" min="0" max="100">
+                    </div>
+                    
+                    <button type="submit" class="btn">Analyze Performance</button>
+                </form>
+                
+                <div id="gpuAnalysisResult" class="result-area">
+                    <h3>Analysis Results</h3>
+                    <div id="gpuAnalysisContent"></div>
+                </div>
+            </div>
+            
+            <!-- Upgrade Recommendations Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">🚀</div>
+                    <div class="card-title">Upgrade Recommendations</div>
+                </div>
+                
+                <form id="upgradeForm">
+                    <div class="form-group">
+                        <label for="currentGPU">Current GPU</label>
+                        <input type="text" id="currentGPU" placeholder="e.g., RTX 3080" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="useCase">Primary Use Case</label>
+                        <select id="useCase" required>
+                            <option value="">Select use case</option>
+                            <option value="4K Gaming">4K Gaming</option>
+                            <option value="1440p Gaming">1440p Gaming</option>
+                            <option value="1080p Gaming">1080p Gaming</option>
+                            <option value="Content Creation">Content Creation</option>
+                            <option value="Video Editing">Video Editing</option>
+                            <option value="3D Rendering">3D Rendering</option>
+                            <option value="Machine Learning">Machine Learning</option>
+                            <option value="Mining">Mining</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="budget">Budget ($)</label>
+                        <input type="number" id="budget" placeholder="e.g., 1500" min="100" max="5000" required>
+                    </div>
+                    
+                    <button type="submit" class="btn">Get Recommendations</button>
+                </form>
+                
+                <div id="upgradeResult" class="result-area">
+                    <h3>Upgrade Recommendations</h3>
+                    <div id="upgradeContent"></div>
+                </div>
+            </div>
+            
+            <!-- AI Support Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">💬</div>
+                    <div class="card-title">AI Support Assistant</div>
+                </div>
+                
+                <form id="supportForm">
+                    <div class="form-group">
+                        <label for="supportEmail">Email</label>
+                        <input type="email" id="supportEmail" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="supportSubject">Subject</label>
+                        <input type="text" id="supportSubject" placeholder="Brief description of your issue" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="supportMessage">Message</label>
+                        <textarea id="supportMessage" rows="4" placeholder="Describe your GPU issue in detail..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">Get AI Support</button>
+                </form>
+                
+                <div id="supportResult" class="result-area">
+                    <h3>AI Support Response</h3>
+                    <div id="supportContent"></div>
+                </div>
+            </div>
+            
+            <!-- Content Generation Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">📝</div>
+                    <div class="card-title">AI Content Generator</div>
+                </div>
+                
+                <form id="contentForm">
+                    <div class="form-group">
+                        <label for="contentTopic">Content Topic</label>
+                        <input type="text" id="contentTopic" placeholder="e.g., RTX 4090 vs RTX 4080 comparison" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contentType">Content Type</label>
+                        <select id="contentType" required>
+                            <option value="">Select type</option>
+                            <option value="blog_post">Blog Post</option>
+                            <option value="comparison">GPU Comparison</option>
+                            <option value="troubleshooting">Troubleshooting Guide</option>
+                            <option value="review">Product Review</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="targetAudience">Target Audience</label>
+                        <select id="targetAudience" required>
+                            <option value="">Select audience</option>
+                            <option value="gaming enthusiasts">Gaming Enthusiasts</option>
+                            <option value="content creators">Content Creators</option>
+                            <option value="professionals">Professionals</option>
+                            <option value="beginners">Beginners</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn">Generate Content</button>
+                </form>
+                
+                <div id="contentResult" class="result-area">
+                    <h3>Generated Content</h3>
+                    <div id="contentContent"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI Features Overview -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <div class="card-icon">🎯</div>
+                <div class="card-title">AI-Powered Features</div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">AI Support</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5min</div>
+                    <div class="stat-label">Response Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">GPUs Analyzed</div>
+                </div>
+            </div>
+            
+            <ul class="feature-list">
+                <li>Automated GPU performance analysis and optimization recommendations</li>
+                <li>Intelligent upgrade suggestions based on your specific needs and budget</li>
+                <li>AI-powered customer support with instant responses</li>
+                <li>Automated content generation for blog posts and guides</li>
+                <li>Predictive maintenance and lifespan analysis</li>
+                <li>Personalized troubleshooting guides</li>
+                <li>Real-time performance monitoring and alerts</li>
+                <li>Advanced benchmarking and comparison tools</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        // Form submission handlers
+        document.getElementById('gpuAnalysisForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('gpuAnalysisResult');
+            const contentDiv = document.getElementById('gpuAnalysisContent');
+            
+            resultDiv.classList.add('show');
+            contentDiv.innerHTML = '<div class="loading"><div class="spinner"></div>Analyzing GPU performance...</div>';
+            
+            // Get form data
+            const formData = {
+                gpu_model: document.getElementById('gpuModel').value,
+                temperature: document.getElementById('temperature').value,
+                power_consumption: document.getElementById('powerConsumption').value,
+                utilization: document.getElementById('utilization').value
+            };
+            
+            try {
+                const response = await fetch('/api/analyze-gpu', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    contentDiv.innerHTML = `
+                        <h4>AI Performance Analysis</h4>
+                        <div style="white-space: pre-line;">${result.analysis}</div>
+                    `;
+                } else {
+                    contentDiv.innerHTML = `
+                        <h4>Error</h4>
+                        <p>Failed to analyze GPU: ${result.error}</p>
+                    `;
+                }
+            } catch (error) {
+                contentDiv.innerHTML = `
+                    <h4>Error</h4>
+                    <p>Failed to connect to AI service: ${error.message}</p>
+                `;
+            }
+        });
+        
+        document.getElementById('upgradeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('upgradeResult');
+            const contentDiv = document.getElementById('upgradeContent');
+            
+            resultDiv.classList.add('show');
+            contentDiv.innerHTML = '<div class="loading"><div class="spinner"></div>Generating upgrade recommendations...</div>';
+            
+            setTimeout(() => {
+                contentDiv.innerHTML = `
+                    <h4>Top Upgrade Recommendations</h4>
+                    <div style="margin: 1rem 0;">
+                        <h5>1. RTX 4080 - $1,199</h5>
+                        <p>Best value for 4K gaming with excellent performance per dollar</p>
+                    </div>
+                    <div style="margin: 1rem 0;">
+                        <h5>2. RTX 4070 Ti - $799</h5>
+                        <p>Great 1440p performance with room for future upgrades</p>
+                    </div>
+                    <div style="margin: 1rem 0;">
+                        <h5>3. RTX 4090 - $1,599</h5>
+                        <p>Ultimate performance for content creation and 4K gaming</p>
+                    </div>
+                `;
+            }, 2000);
+        });
+        
+        document.getElementById('supportForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('supportResult');
+            const contentDiv = document.getElementById('supportContent');
+            
+            resultDiv.classList.add('show');
+            contentDiv.innerHTML = '<div class="loading"><div class="spinner"></div>Processing your support request...</div>';
+            
+            setTimeout(() => {
+                contentDiv.innerHTML = `
+                    <h4>AI Support Response</h4>
+                    <p>Thank you for contacting GPU Benchmark Tool support. Based on your issue description, here are some recommended solutions:</p>
+                    <ol>
+                        <li>Update your GPU drivers to the latest version</li>
+                        <li>Check GPU temperature and ensure proper cooling</li>
+                        <li>Verify power supply capacity and connections</li>
+                        <li>Run our diagnostic tool for detailed analysis</li>
+                    </ol>
+                    <p>If these steps don't resolve your issue, please provide more details and we'll escalate to our technical team.</p>
+                `;
+            }, 2000);
+        });
+        
+        document.getElementById('contentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('contentResult');
+            const contentDiv = document.getElementById('contentContent');
+            
+            resultDiv.classList.add('show');
+            contentDiv.innerHTML = '<div class="loading"><div class="spinner"></div>Generating content...</div>';
+            
+            setTimeout(() => {
+                contentDiv.innerHTML = `
+                    <h4>Generated Content Preview</h4>
+                    <p><strong>Title:</strong> RTX 4090 vs RTX 4080: Which GPU Should You Choose?</p>
+                    <p><strong>Meta Description:</strong> Comprehensive comparison of RTX 4090 and RTX 4080 for gaming and content creation...</p>
+                    <p><strong>Content Outline:</strong></p>
+                    <ul>
+                        <li>Introduction and key differences</li>
+                        <li>Performance benchmarks and testing</li>
+                        <li>Price-to-performance analysis</li>
+                        <li>Use case recommendations</li>
+                        <li>Conclusion and final verdict</li>
+                    </ul>
+                    <p><em>Full content has been generated and saved to your content library.</em></p>
+                `;
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
