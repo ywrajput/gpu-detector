@@ -243,19 +243,7 @@
                 <form id="gpuAnalysisForm">
                     <div class="form-group">
                         <label for="gpuModel">GPU Model</label>
-                        <select id="gpuModel" required>
-                            <option value="">Select your GPU</option>
-                            <option value="RTX 4090">RTX 4090</option>
-                            <option value="RTX 4080">RTX 4080</option>
-                            <option value="RTX 4070">RTX 4070</option>
-                            <option value="RTX 3090">RTX 3090</option>
-                            <option value="RTX 3080">RTX 3080</option>
-                            <option value="RTX 3070">RTX 3070</option>
-                            <option value="RTX 3060">RTX 3060</option>
-                            <option value="RX 7900 XTX">RX 7900 XTX</option>
-                            <option value="RX 6900 XT">RX 6900 XT</option>
-                            <option value="Arc A770">Arc A770</option>
-                        </select>
+                        <input type="text" id="gpuModel" placeholder="e.g., RTX 4090, RX 7900 XTX, RTX 3080" required>
                     </div>
                     
                     <div class="form-group">
@@ -297,17 +285,7 @@
                     
                     <div class="form-group">
                         <label for="useCase">Primary Use Case</label>
-                        <select id="useCase" required>
-                            <option value="">Select use case</option>
-                            <option value="4K Gaming">4K Gaming</option>
-                            <option value="1440p Gaming">1440p Gaming</option>
-                            <option value="1080p Gaming">1080p Gaming</option>
-                            <option value="Content Creation">Content Creation</option>
-                            <option value="Video Editing">Video Editing</option>
-                            <option value="3D Rendering">3D Rendering</option>
-                            <option value="Machine Learning">Machine Learning</option>
-                            <option value="Mining">Mining</option>
-                        </select>
+                        <input type="text" id="useCase" placeholder="e.g., 4K Gaming, Video Editing, 3D Rendering, Machine Learning" required>
                     </div>
                     
                     <div class="form-group">

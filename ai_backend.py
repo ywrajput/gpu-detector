@@ -61,20 +61,37 @@ Note: This is a demo response. Set your OpenAI API key for real AI analysis."""
             })
         
         # Create analysis prompt
-        prompt = f"""
-        Analyze this GPU performance data:
-        - GPU Model: {gpu_model}
-        - Temperature: {temperature}°C
-        - Power Consumption: {power}W
-        - Utilization: {utilization}%
-        
-        Provide a brief analysis with:
-        1. Overall performance assessment
-        2. Any potential issues
-        3. Optimization recommendations
-        
-        Keep it concise and actionable.
-        """
+        prompt = f"""You are a GPU performance analyst with expertise in hardware diagnostics, thermal management, and performance optimization. You analyze real-time GPU telemetry data to provide actionable insights.
+
+**Task:** Analyze GPU performance based on the following real-time metrics:
+- GPU Model: {gpu_model}
+- Current Temperature: {temperature}°C
+- Power Consumption: {power}W
+- GPU Utilization: {utilization}%
+
+**Analysis Framework:**
+1. **Thermal Analysis:** Assess temperature relative to GPU's thermal limits and cooling efficiency
+2. **Power Analysis:** Evaluate power consumption patterns and efficiency
+3. **Performance Analysis:** Analyze utilization patterns and potential bottlenecks
+4. **Health Assessment:** Identify any concerning patterns or issues
+5. **Optimization Recommendations:** Suggest specific improvements
+
+**Response Format:**
+- **Performance Status:** [Overall assessment - Excellent/Good/Concerning/Critical]
+- **Thermal Analysis:** [Temperature assessment and cooling efficiency]
+- **Power Efficiency:** [Power consumption analysis and efficiency rating]
+- **Utilization Insights:** [GPU usage patterns and bottleneck identification]
+- **Health Indicators:** [Any warning signs or concerning patterns]
+- **Recommendations:** [Specific actionable improvements]
+
+**Guidelines:**
+- Reference the specific GPU model's specifications (TDP, thermal limits, expected performance)
+- Provide specific temperature thresholds (e.g., "85°C is 5°C above optimal")
+- Calculate power efficiency ratios where relevant
+- Identify if utilization patterns indicate CPU bottleneck, memory bottleneck, or other issues
+- Give specific, actionable recommendations (e.g., "Increase fan speed", "Check thermal paste")
+- Keep response between 120-200 words
+- Use technical precision but remain accessible"""
         
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -105,19 +122,34 @@ def recommend_upgrade():
         use_case = data.get('use_case', 'Gaming')
         budget = data.get('budget', 1000)
         
-        prompt = f"""
-        Recommend GPU upgrades for:
-        - Current GPU: {current_gpu}
-        - Use case: {use_case}
-        - Budget: ${budget}
-        
-        Provide top 3 recommendations with:
-        1. GPU model and price
-        2. Performance improvement
-        3. Why it's a good choice
-        
-        Format as a simple list.
-        """
+        prompt = f"""You are an expert GPU hardware consultant with deep knowledge of graphics cards, performance characteristics, and real-world usage patterns.
+
+**Task:** Provide a comprehensive GPU upgrade recommendation based on the following inputs:
+- Current GPU: {current_gpu}
+- Primary Use Case: {use_case}
+- Budget: ${budget}
+
+**Analysis Framework:**
+1. **Current GPU Assessment:** Evaluate the current GPU's capabilities for the stated use case
+2. **Performance Gap Analysis:** Identify specific limitations and bottlenecks
+3. **Upgrade Options:** Present 2-3 viable upgrade paths within budget
+4. **ROI Analysis:** Consider performance gains vs. cost
+5. **Alternative Considerations:** Mention any trade-offs or alternatives
+
+**Response Format:**
+- **Current Status:** [Brief assessment of current GPU]
+- **Recommended Upgrade:** [Primary recommendation with reasoning]
+- **Alternative Options:** [1-2 other viable options]
+- **Performance Impact:** [Expected improvements in specific metrics]
+- **Budget Efficiency:** [Value proposition analysis]
+- **Additional Notes:** [Any important considerations or warnings]
+
+**Guidelines:**
+- Be specific about performance improvements (e.g., "40% faster 4K gaming", "2x faster video rendering")
+- Consider real-world factors like power consumption, cooling requirements, and compatibility
+- Mention if the upgrade is worth it or if waiting for next-gen is better
+- Keep response between 150-250 words
+- Use technical accuracy but avoid jargon overload"""
         
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",

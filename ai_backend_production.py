@@ -211,19 +211,7 @@ AI_DASHBOARD_HTML = """
                 <form id="gpuAnalysisForm">
                     <div class="form-group">
                         <label for="gpuModel">GPU Model</label>
-                        <select id="gpuModel" required>
-                            <option value="">Select your GPU</option>
-                            <option value="RTX 4090">RTX 4090</option>
-                            <option value="RTX 4080">RTX 4080</option>
-                            <option value="RTX 4070">RTX 4070</option>
-                            <option value="RTX 3090">RTX 3090</option>
-                            <option value="RTX 3080">RTX 3080</option>
-                            <option value="RTX 3070">RTX 3070</option>
-                            <option value="RTX 3060">RTX 3060</option>
-                            <option value="RX 7900 XTX">RX 7900 XTX</option>
-                            <option value="RX 6900 XT">RX 6900 XT</option>
-                            <option value="Arc A770">Arc A770</option>
-                        </select>
+                        <input type="text" id="gpuModel" placeholder="e.g., RTX 4090, RX 7900 XTX, RTX 3080" required>
                     </div>
                     
                     <div class="form-group">
@@ -265,16 +253,7 @@ AI_DASHBOARD_HTML = """
                     
                     <div class="form-group">
                         <label for="useCase">Primary Use Case</label>
-                        <select id="useCase" required>
-                            <option value="">Select use case</option>
-                            <option value="4K Gaming">4K Gaming</option>
-                            <option value="1440p Gaming">1440p Gaming</option>
-                            <option value="1080p Gaming">1080p Gaming</option>
-                            <option value="Content Creation">Content Creation</option>
-                            <option value="Video Editing">Video Editing</option>
-                            <option value="3D Rendering">3D Rendering</option>
-                            <option value="Machine Learning">Machine Learning</option>
-                        </select>
+                        <input type="text" id="useCase" placeholder="e.g., 4K Gaming, Video Editing, 3D Rendering, Machine Learning" required>
                     </div>
                     
                     <div class="form-group">
@@ -411,19 +390,21 @@ def analyze_gpu():
         api_key = os.getenv('OPENAI_API_KEY')
         if not api_key or api_key == "your-api-key-here":
             # Return demo response
-            analysis = f"""DEMO ANALYSIS for {gpu_model}:
+            analysis = f"""**Performance Status:** {'Excellent' if temperature < 80 and utilization > 80 else 'Good' if temperature < 85 else 'Concerning'}
 
-1. Overall Performance: {'Excellent' if temperature < 80 and utilization > 80 else 'Good' if temperature < 85 else 'Needs Attention'}
+**Thermal Analysis:** {temperature}°C is {'optimal for sustained performance' if temperature < 75 else 'acceptable but monitor during heavy loads' if temperature < 85 else 'concerning - consider improving cooling'}
 
-2. Temperature Analysis: {temperature}°C is {'optimal' if temperature < 75 else 'acceptable' if temperature < 85 else 'concerning - consider better cooling'}
+**Power Efficiency:** {power}W consumption is {'efficient' if power < 300 else 'moderate' if power < 450 else 'high - ensure adequate PSU capacity'}
 
-3. Power Consumption: {power}W is {'efficient' if power < 300 else 'moderate' if power < 450 else 'high - monitor power supply'}
+**Utilization Insights:** {utilization}% utilization indicates {'excellent GPU utilization' if utilization > 90 else 'good usage' if utilization > 70 else 'potential CPU bottleneck or light workload'}
 
-4. Recommendations:
-   - Update GPU drivers for optimal performance
-   - Monitor temperature during extended use
-   - Consider undervolting for better efficiency
-   - Ensure adequate case ventilation
+**Health Indicators:** {'No immediate concerns' if temperature < 85 and power < 500 else 'Monitor temperature and power consumption'}
+
+**Recommendations:**
+- Update GPU drivers for optimal performance
+- {'Improve case ventilation' if temperature > 80 else 'Maintain current cooling setup'}
+- {'Consider undervolting for efficiency' if power > 400 else 'Current power usage is acceptable'}
+- Monitor performance during extended gaming/rendering sessions
 
 Note: This is a demo response. Set your OpenAI API key for real AI analysis."""
             
@@ -434,20 +415,37 @@ Note: This is a demo response. Set your OpenAI API key for real AI analysis."""
             })
         
         # Create analysis prompt
-        prompt = f"""
-        Analyze this GPU performance data:
-        - GPU Model: {gpu_model}
-        - Temperature: {temperature}°C
-        - Power Consumption: {power}W
-        - Utilization: {utilization}%
-        
-        Provide a brief analysis with:
-        1. Overall performance assessment
-        2. Any potential issues
-        3. Optimization recommendations
-        
-        Keep it concise and actionable.
-        """
+        prompt = f"""You are a GPU performance analyst with expertise in hardware diagnostics, thermal management, and performance optimization. You analyze real-time GPU telemetry data to provide actionable insights.
+
+**Task:** Analyze GPU performance based on the following real-time metrics:
+- GPU Model: {gpu_model}
+- Current Temperature: {temperature}°C
+- Power Consumption: {power}W
+- GPU Utilization: {utilization}%
+
+**Analysis Framework:**
+1. **Thermal Analysis:** Assess temperature relative to GPU's thermal limits and cooling efficiency
+2. **Power Analysis:** Evaluate power consumption patterns and efficiency
+3. **Performance Analysis:** Analyze utilization patterns and potential bottlenecks
+4. **Health Assessment:** Identify any concerning patterns or issues
+5. **Optimization Recommendations:** Suggest specific improvements
+
+**Response Format:**
+- **Performance Status:** [Overall assessment - Excellent/Good/Concerning/Critical]
+- **Thermal Analysis:** [Temperature assessment and cooling efficiency]
+- **Power Efficiency:** [Power consumption analysis and efficiency rating]
+- **Utilization Insights:** [GPU usage patterns and bottleneck identification]
+- **Health Indicators:** [Any warning signs or concerning patterns]
+- **Recommendations:** [Specific actionable improvements]
+
+**Guidelines:**
+- Reference the specific GPU model's specifications (TDP, thermal limits, expected performance)
+- Provide specific temperature thresholds (e.g., "85°C is 5°C above optimal")
+- Calculate power efficiency ratios where relevant
+- Identify if utilization patterns indicate CPU bottleneck, memory bottleneck, or other issues
+- Give specific, actionable recommendations (e.g., "Increase fan speed", "Check thermal paste")
+- Keep response between 120-200 words
+- Use technical precision but remain accessible"""
         
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -482,25 +480,20 @@ def recommend_upgrade():
         api_key = os.getenv('OPENAI_API_KEY')
         if not api_key or api_key == "your-api-key-here":
             # Return demo response
-            recommendations = f"""DEMO UPGRADE RECOMMENDATIONS:
+            recommendations = f"""**Current Status:** {current_gpu} is a capable GPU for {use_case}, but there may be room for improvement within your ${budget} budget.
 
-Current GPU: {current_gpu}
-Use Case: {use_case}
-Budget: ${budget}
+**Recommended Upgrade:** RTX 4080 - $1,199
+Best value for 4K gaming with excellent performance per dollar. Offers significant improvements in ray tracing and DLSS performance.
 
-Top 3 Recommendations:
+**Alternative Options:**
+- RTX 4070 Ti - $799: Great 1440p performance with room for future upgrades
+- RTX 4090 - $1,599: Ultimate performance for content creation and 4K gaming
 
-1. RTX 4080 - $1,199
-   Best value for 4K gaming with excellent performance per dollar
-   Expected improvement: 40-60% over {current_gpu}
+**Performance Impact:** Expected 40-60% improvement in {use_case} performance, with enhanced ray tracing capabilities and better power efficiency.
 
-2. RTX 4070 Ti - $799
-   Great 1440p performance with room for future upgrades
-   Expected improvement: 25-35% over {current_gpu}
+**Budget Efficiency:** RTX 4080 offers the best price-to-performance ratio in your budget range, providing substantial gains without overspending.
 
-3. RTX 4090 - $1,599
-   Ultimate performance for content creation and 4K gaming
-   Expected improvement: 60-80% over {current_gpu}
+**Additional Notes:** Consider your current PSU capacity and case cooling. RTX 4080 requires 750W+ PSU and good airflow. If budget allows, RTX 4090 provides future-proofing for 4K gaming and content creation.
 
 Note: This is a demo response. Set your OpenAI API key for real AI recommendations."""
             
@@ -512,19 +505,34 @@ Note: This is a demo response. Set your OpenAI API key for real AI recommendatio
             })
         
         # Create recommendation prompt
-        prompt = f"""
-        Recommend GPU upgrades for:
-        - Current GPU: {current_gpu}
-        - Use case: {use_case}
-        - Budget: ${budget}
-        
-        Provide top 3 recommendations with:
-        1. GPU model and price
-        2. Performance improvement
-        3. Why it's a good choice
-        
-        Format as a simple list.
-        """
+        prompt = f"""You are an expert GPU hardware consultant with deep knowledge of graphics cards, performance characteristics, and real-world usage patterns.
+
+**Task:** Provide a comprehensive GPU upgrade recommendation based on the following inputs:
+- Current GPU: {current_gpu}
+- Primary Use Case: {use_case}
+- Budget: ${budget}
+
+**Analysis Framework:**
+1. **Current GPU Assessment:** Evaluate the current GPU's capabilities for the stated use case
+2. **Performance Gap Analysis:** Identify specific limitations and bottlenecks
+3. **Upgrade Options:** Present 2-3 viable upgrade paths within budget
+4. **ROI Analysis:** Consider performance gains vs. cost
+5. **Alternative Considerations:** Mention any trade-offs or alternatives
+
+**Response Format:**
+- **Current Status:** [Brief assessment of current GPU]
+- **Recommended Upgrade:** [Primary recommendation with reasoning]
+- **Alternative Options:** [1-2 other viable options]
+- **Performance Impact:** [Expected improvements in specific metrics]
+- **Budget Efficiency:** [Value proposition analysis]
+- **Additional Notes:** [Any important considerations or warnings]
+
+**Guidelines:**
+- Be specific about performance improvements (e.g., "40% faster 4K gaming", "2x faster video rendering")
+- Consider real-world factors like power consumption, cooling requirements, and compatibility
+- Mention if the upgrade is worth it or if waiting for next-gen is better
+- Keep response between 150-250 words
+- Use technical accuracy but avoid jargon overload"""
         
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
