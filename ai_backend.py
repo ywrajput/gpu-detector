@@ -12,7 +12,11 @@ import anthropic
 app = Flask(__name__)
 
 # Initialize Anthropic client
-client = anthropic.Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
+try:
+    client = anthropic.Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
+except Exception as e:
+    print(f"Failed to initialize Anthropic client: {e}")
+    client = None
 
 @app.route('/')
 def index():
@@ -34,9 +38,9 @@ def analyze_gpu():
         power = data.get('power_consumption', 0)
         utilization = data.get('utilization', 0)
         
-        # Check if we have a valid API key
+        # Check if we have a valid API key and client
         api_key = os.getenv('ANTHROPIC_API_KEY')
-        if not api_key or api_key == "your-api-key-here":
+        if not api_key or api_key == "your-api-key-here" or client is None:
             return jsonify({
                 'success': False,
                 'error': 'AI analysis service is currently unavailable. Please try again later or contact support if the issue persists.'
@@ -104,9 +108,9 @@ def recommend_upgrade():
         use_case = data.get('use_case', 'Gaming')
         budget = data.get('budget', 1000)
         
-        # Check if we have a valid API key
+        # Check if we have a valid API key and client
         api_key = os.getenv('ANTHROPIC_API_KEY')
-        if not api_key or api_key == "your-api-key-here":
+        if not api_key or api_key == "your-api-key-here" or client is None:
             return jsonify({
                 'success': False,
                 'error': 'AI recommendation service is currently unavailable. Please try again later or contact support if the issue persists.'
