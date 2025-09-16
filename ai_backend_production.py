@@ -7,12 +7,12 @@ Deploy this to your hosting platform (Heroku, Railway, etc.)
 import os
 import json
 from flask import Flask, request, jsonify, render_template_string
-import openai
+import anthropic
 
 app = Flask(__name__)
 
-# Initialize OpenAI client
-client = openai.OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+# Initialize Anthropic client
+client = anthropic.Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
 
 # AI Dashboard HTML (embedded for production)
 AI_DASHBOARD_HTML = """
@@ -387,7 +387,7 @@ def analyze_gpu():
         utilization = data.get('utilization', 0)
         
         # Check if we have a valid API key
-        api_key = os.getenv('OPENAI_API_KEY')
+        api_key = os.getenv('ANTHROPIC_API_KEY')
         if not api_key or api_key == "your-api-key-here":
             return jsonify({
                 'success': False,
@@ -427,13 +427,13 @@ def analyze_gpu():
 - Keep response between 120-200 words
 - Use technical precision but remain accessible"""
         
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=300
+        response = client.messages.create(
+            model="claude-3-haiku-20240307",
+            max_tokens=300,
+            messages=[{"role": "user", "content": prompt}]
         )
         
-        analysis = response.choices[0].message.content
+        analysis = response.content[0].text
         
         return jsonify({
             'success': True,
@@ -457,7 +457,7 @@ def recommend_upgrade():
         budget = data.get('budget', 1000)
         
         # Check if we have a valid API key
-        api_key = os.getenv('OPENAI_API_KEY')
+        api_key = os.getenv('ANTHROPIC_API_KEY')
         if not api_key or api_key == "your-api-key-here":
             return jsonify({
                 'success': False,
@@ -496,13 +496,13 @@ def recommend_upgrade():
 - Keep response between 150-250 words
 - Use technical accuracy but avoid jargon overload"""
         
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=400
+        response = client.messages.create(
+            model="claude-3-haiku-20240307",
+            max_tokens=400,
+            messages=[{"role": "user", "content": prompt}]
         )
         
-        recommendations = response.choices[0].message.content
+        recommendations = response.content[0].text
         
         return jsonify({
             'success': True,
@@ -519,13 +519,13 @@ def recommend_upgrade():
 
 if __name__ == '__main__':
     # Check if API key is set
-    api_key = os.getenv('OPENAI_API_KEY')
+    api_key = os.getenv('ANTHROPIC_API_KEY')
     if not api_key or api_key == "your-api-key-here":
-        print("⚠️  No valid OpenAI API key found")
-        print("   The server will start but AI features will show demo responses")
-        print("   To enable real AI: export OPENAI_API_KEY='your-real-key'")
+        print("⚠️  No valid Anthropic API key found")
+        print("   The server will start but AI features will be unavailable")
+        print("   To enable real AI: export ANTHROPIC_API_KEY='your-real-key'")
     else:
-        print("✅ OpenAI API key found - AI features enabled")
+        print("✅ Anthropic API key found - AI features enabled")
     
     print("🚀 Starting Production AI Backend Server...")
     print("   Dashboard: http://localhost:5000")
