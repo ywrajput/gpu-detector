@@ -389,30 +389,10 @@ def analyze_gpu():
         # Check if we have a valid API key
         api_key = os.getenv('OPENAI_API_KEY')
         if not api_key or api_key == "your-api-key-here":
-            # Return demo response
-            analysis = f"""**Performance Status:** {'Excellent' if temperature < 80 and utilization > 80 else 'Good' if temperature < 85 else 'Concerning'}
-
-**Thermal Analysis:** {temperature}°C is {'optimal for sustained performance' if temperature < 75 else 'acceptable but monitor during heavy loads' if temperature < 85 else 'concerning - consider improving cooling'}
-
-**Power Efficiency:** {power}W consumption is {'efficient' if power < 300 else 'moderate' if power < 450 else 'high - ensure adequate PSU capacity'}
-
-**Utilization Insights:** {utilization}% utilization indicates {'excellent GPU utilization' if utilization > 90 else 'good usage' if utilization > 70 else 'potential CPU bottleneck or light workload'}
-
-**Health Indicators:** {'No immediate concerns' if temperature < 85 and power < 500 else 'Monitor temperature and power consumption'}
-
-**Recommendations:**
-- Update GPU drivers for optimal performance
-- {'Improve case ventilation' if temperature > 80 else 'Maintain current cooling setup'}
-- {'Consider undervolting for efficiency' if power > 400 else 'Current power usage is acceptable'}
-- Monitor performance during extended gaming/rendering sessions
-
-Note: This is a demo response. Set your OpenAI API key for real AI analysis."""
-            
             return jsonify({
-                'success': True,
-                'analysis': analysis,
-                'gpu_model': gpu_model
-            })
+                'success': False,
+                'error': 'AI analysis service is currently unavailable. Please try again later or contact support if the issue persists.'
+            }), 503
         
         # Create analysis prompt
         prompt = f"""You are a GPU performance analyst with expertise in hardware diagnostics, thermal management, and performance optimization. You analyze real-time GPU telemetry data to provide actionable insights.
@@ -479,55 +459,37 @@ def recommend_upgrade():
         # Check if we have a valid API key
         api_key = os.getenv('OPENAI_API_KEY')
         if not api_key or api_key == "your-api-key-here":
-            # Return demo response
-            recommendations = f"""**Current Status:** {current_gpu} is a capable GPU for {use_case}, but there may be room for improvement within your ${budget} budget.
-
-**Recommended Upgrade:** RTX 4080 - $1,199
-Best value for 4K gaming with excellent performance per dollar. Offers significant improvements in ray tracing and DLSS performance.
-
-**Alternative Options:**
-- RTX 4070 Ti - $799: Great 1440p performance with room for future upgrades
-- RTX 4090 - $1,599: Ultimate performance for content creation and 4K gaming
-
-**Performance Impact:** Expected 40-60% improvement in {use_case} performance, with enhanced ray tracing capabilities and better power efficiency.
-
-**Budget Efficiency:** RTX 4080 offers the best price-to-performance ratio in your budget range, providing substantial gains without overspending.
-
-**Additional Notes:** Consider your current PSU capacity and case cooling. RTX 4080 requires 750W+ PSU and good airflow. If budget allows, RTX 4090 provides future-proofing for 4K gaming and content creation.
-
-Note: This is a demo response. Set your OpenAI API key for real AI recommendations."""
-            
             return jsonify({
-                'success': True,
-                'recommendations': recommendations,
-                'current_gpu': current_gpu,
-                'budget': budget
-            })
+                'success': False,
+                'error': 'AI recommendation service is currently unavailable. Please try again later or contact support if the issue persists.'
+            }), 503
         
         # Create recommendation prompt
         prompt = f"""You are an expert GPU hardware consultant with deep knowledge of graphics cards, performance characteristics, and real-world usage patterns.
 
-**Task:** Provide a comprehensive GPU upgrade recommendation based on the following inputs:
+**Task:** Provide intelligent GPU advice based on the following inputs:
 - Current GPU: {current_gpu}
 - Primary Use Case: {use_case}
 - Budget: ${budget}
 
 **Analysis Framework:**
 1. **Current GPU Assessment:** Evaluate the current GPU's capabilities for the stated use case
-2. **Performance Gap Analysis:** Identify specific limitations and bottlenecks
-3. **Upgrade Options:** Present 2-3 viable upgrade paths within budget
-4. **ROI Analysis:** Consider performance gains vs. cost
+2. **Performance Gap Analysis:** Identify if there are actual limitations or if the current GPU is already sufficient
+3. **Upgrade Necessity:** Determine if an upgrade is actually needed or if the current GPU is already strong enough
+4. **ROI Analysis:** Consider performance gains vs. cost (only if upgrade is beneficial)
 5. **Alternative Considerations:** Mention any trade-offs or alternatives
 
 **Response Format:**
-- **Current Status:** [Brief assessment of current GPU]
-- **Recommended Upgrade:** [Primary recommendation with reasoning]
-- **Alternative Options:** [1-2 other viable options]
-- **Performance Impact:** [Expected improvements in specific metrics]
-- **Budget Efficiency:** [Value proposition analysis]
+- **Current Status:** [Brief assessment of current GPU for the use case]
+- **Recommendation:** [Either "No upgrade needed" OR "Recommended upgrade" with reasoning]
+- **Alternative Options:** [Only if upgrade is recommended - 1-2 other viable options]
+- **Performance Impact:** [Expected improvements OR explanation of why current GPU is sufficient]
+- **Budget Efficiency:** [Value proposition analysis OR cost savings from not upgrading]
 - **Additional Notes:** [Any important considerations or warnings]
 
 **Guidelines:**
+- If the current GPU is already powerful enough for the use case, RECOMMEND NOT UPGRADING
+- Only suggest upgrades if there's a genuine performance benefit
 - Be specific about performance improvements (e.g., "40% faster 4K gaming", "2x faster video rendering")
 - Consider real-world factors like power consumption, cooling requirements, and compatibility
 - Mention if the upgrade is worth it or if waiting for next-gen is better
