@@ -12,7 +12,20 @@ import anthropic
 app = Flask(__name__)
 
 # Initialize Anthropic client
-client = anthropic.Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
+try:
+    api_key = os.getenv('ANTHROPIC_API_KEY')
+    print(f"API Key found: {api_key[:10] if api_key else 'None'}...")
+    if api_key and api_key != "your-api-key-here":
+        print("Initializing Anthropic client...")
+        client = anthropic.Anthropic(api_key=api_key)
+        print("✅ Anthropic client initialized successfully")
+    else:
+        print("❌ No valid API key found")
+        client = None
+except Exception as e:
+    print(f"❌ Failed to initialize Anthropic client: {e}")
+    print(f"Error type: {type(e).__name__}")
+    client = None
 
 # AI Dashboard HTML (embedded for production)
 AI_DASHBOARD_HTML = """
@@ -427,13 +440,13 @@ def analyze_gpu():
 - Keep response between 120-200 words
 - Use technical precision but remain accessible"""
         
-        response = client.messages.create(
+        response = client.completions.create(
             model="claude-3-haiku-20240307",
-            max_tokens=300,
-            messages=[{"role": "user", "content": prompt}]
+            max_tokens_to_sample=300,
+            prompt=f"\n\nHuman: {prompt}\n\nAssistant:"
         )
         
-        analysis = response.content[0].text
+        analysis = response.completion
         
         return jsonify({
             'success': True,
@@ -496,13 +509,13 @@ def recommend_upgrade():
 - Keep response between 150-250 words
 - Use technical accuracy but avoid jargon overload"""
         
-        response = client.messages.create(
+        response = client.completions.create(
             model="claude-3-haiku-20240307",
-            max_tokens=400,
-            messages=[{"role": "user", "content": prompt}]
+            max_tokens_to_sample=400,
+            prompt=f"\n\nHuman: {prompt}\n\nAssistant:"
         )
         
-        recommendations = response.content[0].text
+        recommendations = response.completion
         
         return jsonify({
             'success': True,

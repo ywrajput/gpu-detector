@@ -5,4 +5,4 @@ py-cpuinfo==9.0.0
 Werkzeug==2.3.7
 gunicorn==21.2.0
 streamlit==1.28.1
-anthropic==0.7.8
+anthropic==0.3.11
